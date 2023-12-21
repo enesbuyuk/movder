@@ -1,0 +1,260 @@
+{{define "all"}}
+	{{template "head".}}
+	{{template "header".}}
+	{{$SiteConfig := .SiteConfig}}
+	<div class="container">
+		<center><p class="mt-5 mb-3 h5">{{.Language.Films}}</p><br>
+
+			<a class="btn btn-dark" href="{{.SiteConfig.SiteUrl}}all/popular-movies" title="{{.Language.PopularMovies}}">{{.Language.PopularMovies}}</a>
+			<a class="btn btn-dark" href="{{.SiteConfig.SiteUrl}}all/popular-series" title="{{.Language.PopularSeries}}">{{.Language.PopularSeries}}</a>
+			<br><br>
+			<a class="btn btn-dark" href="{{.SiteConfig.SiteUrl}}all/trend-movies" title="{{.Language.Dailytrendsmovie}}">{{.Language.Dailytrendsmovie}}</a>
+			<a class="btn btn-dark" href="{{.SiteConfig.SiteUrl}}all/trend-series" title="{{.Language.Dailytrendstv}}">{{.Language.Dailytrendstv}}</a>
+			<br><br>
+			<a class="btn btn-dark" href="{{.SiteConfig.SiteUrl}}all/upcoming" title="{{.Language.Upcoming}}">{{.Language.Upcoming}}</a>
+		</center>
+	</div>
+	<br><br><br>
+	{{template "footer".}}
+	{{template "deep".}}
+{{end}}
+
+{{define "popular-movies"}}
+	{{template "head".}}
+	{{template "header".}}
+	{{$SiteConfig := .SiteConfig}}
+	<div class="container">
+		<div class="d-flex align-items-center justify-content-between mt-5 mb-3">
+		<h1 class="h5 mb-0 float-left">{{.Language.PopularMovies}}</h1>
+		</div>
+		<div class="row" id="result">
+		{{range .PopularMovies.Results}}
+		<div class="col-xl-2 col-md-2 col-sm-2 mb-4">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+
+	</div>
+	<div class="text-center mt-4 mb-5 col-12" id="loading" style="display:none"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>
+	</div>
+	{{template "deep".}}
+{{end}}
+
+{{define "popular-series"}}
+	{{template "head".}}
+	{{template "header".}}
+	{{$SiteConfig := .SiteConfig}}
+	<div class="container">
+		<div class="d-flex align-items-center justify-content-between mt-5 mb-3">
+		<h1 class="h5 mb-0 float-left">{{.Language.PopularSeries}}</h1>
+		</div>
+		<div class="row" id="result">
+		{{range .PopularSeries.Results}}
+		<div class="col-xl-2 col-md-2 col-sm-2 mb-4">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','tv');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','tv');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','tv');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','tv');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+
+	</div>
+	<div class="text-center mt-4 mb-5 col-12" id="loading" style="display:none"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>
+	</div>
+	{{template "deep".}}
+{{end}}
+
+{{define "trend-movies"}}
+	{{template "head".}}
+	{{template "header".}}
+	{{$SiteConfig := .SiteConfig}}
+	<div class="container">
+		<div class="d-flex align-items-center justify-content-between mt-5 mb-3">
+		<h1 class="h5 mb-0 float-left">{{.Language.Dailytrendsmovie}}</h1>
+		</div>
+		<div class="row" id="result">
+		{{range .TrendMovies.Results}}
+		<div class="col-xl-2 col-md-2 col-sm-2 mb-4">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+
+	</div>
+	<div class="text-center mt-4 mb-5 col-12" id="loading" style="display:none"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>
+	</div>
+	{{template "deep".}}
+{{end}}
+
+{{define "trend-series"}}
+	{{template "head".}}
+	{{template "header".}}
+	{{$SiteConfig := .SiteConfig}}
+	<div class="container">
+		<div class="d-flex align-items-center justify-content-between mt-5 mb-3">
+		<h1 class="h5 mb-0 float-left">{{.Language.Dailytrendstv}}</h1>
+		</div>
+		<div class="row" id="result">
+		{{range .TrendSeries.Results}}
+		<div class="col-xl-2 col-md-2 col-sm-2 mb-4">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','tv');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','tv');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','tv');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','tv');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+
+	</div>
+	<div class="text-center mt-4 mb-5 col-12" id="loading" style="display:none"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>
+	</div>
+	{{template "deep".}}
+{{end}}
+
+{{define "upcoming"}}
+	{{template "head".}}
+	{{template "header".}}
+	{{$SiteConfig := .SiteConfig}}
+	<div class="container">
+		<div class="d-flex align-items-center justify-content-between mt-5 mb-3">
+		<h1 class="h5 mb-0 float-left">{{.Language.Upcoming}}</h1>
+		</div>
+		<div class="row" id="result">
+		{{range .Upcoming.Results}}
+		<div class="col-xl-2 col-md-2 col-sm-2 mb-4">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+
+	</div>
+	<div class="text-center mt-4 mb-5 col-12" id="loading" style="display:none"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>
+	</div>
+	{{template "deep".}}
+{{end}}

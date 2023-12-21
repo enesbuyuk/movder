@@ -1,0 +1,240 @@
+{{define "blog"}}
+	{{template "head".}}
+	{{template "header".}}
+    {{$SiteConfig := .SiteConfig}}
+    {{$Language := .Language}}
+
+<section class="py-4 bg-dark inner-header">
+<div class="container">
+<div class="row d-flex align-items-center">
+<div class="col-lg-6 col-md-6">
+<h4 class="mt-0 mb-0 text-white">{{.Language.Latestfromblog}}</h4>
+</div>
+<div class="col-lg-6 col-md-6 text-right">
+<div class="breadcrumbs">
+<p class="mb-0"><a href="{{.SiteConfig.SiteUrl}}"><i class="icofont-ui-home"></i> {{.Language.Home}}</a> / <span> Blog</span></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<div class="container pt-5 ">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+
+            	{{range .Blogs}}
+                <div class="col-md-6 col-xl-4">
+                    <article class="post">
+                        <div class="article-v2">
+                            <figure class="article-thumb">
+                                <a href="{{$SiteConfig.SiteUrl}}blog/{{.BlogLink}}">
+                                    <img src="{{$SiteConfig.SiteUrl}}static/cdn/blog/{{.BlogImage}}" alt="{{.BlogTitle}}" />
+                                </a>
+                            </figure>
+                            <!-- /.article-thumb -->
+                            <div class="article-content-main">
+                                <div class="article-header">
+                                    <h2 class="entry-title"><a href="{{$SiteConfig.SiteUrl}}blog/{{.BlogLink}}" title="{{.BlogTitle}}">{{.BlogTitle}}</a></h2>
+                                    <div class="entry-meta">
+                                        <div class="entry-date">{{.BlogDate}}</div>
+                                        <!-- /.entry-date -->
+                                        <div class="entry-cat">
+                                            <a href="{{$SiteConfig.SiteUrl}}@{{.BlogAuthorLink}}" title="{{.BlogAuthorNick}}">{{.BlogAuthorNick}}</a>
+                                        </div>
+                                        <!--  /.entry-cat -->
+                                    </div>
+                                    <!-- /.entry-meta -->
+                                </div>
+                                <!-- /.article-header -->
+                                <div class="article-content">
+                                    <p>{{.BlogOverview}}</p>
+                                </div>
+                                <!--  /.article-content -->
+                                <div class="article-footer">
+                                    <div class="row">
+                                        <div class="col-6 text-left footer-link">
+                                            <a href="{{$SiteConfig.SiteUrl}}blog/{{.BlogLink}}" title="{{.BlogTitle}}" class="more-link">{{$Language.Readmore}}</a>
+                                        </div>
+                                        <!--  /.col-6 -->
+                                        <div class="col-6 text-right footer-meta">
+                                            <a href="{{$SiteConfig.SiteUrl}}blog/{{.BlogLink}}#comments">{{.BlogComment}} <i class="fas fa-fw fa-comment"></i></a>
+                                        </div>
+                                        <!--  /.col-6 -->
+                                    </div>
+                                    <!--  /.row -->
+                                </div>
+                                <!--  /.article-footer -->
+                            </div>
+                            <!--  /.article-content-main -->
+                        </div>
+                        <!--  /.article-v2 -->
+                    </article>
+                    <!--  /.post -->
+                </div>
+                <!--  /.col-md-6 --><br><br/>
+                {{end}}
+            </div>
+            <!--  /.blog-carousel -->
+        </div>
+        <!--  /.col-12 -->
+    </div>
+    <!--  /.row -->
+</div>
+				{{template "footer".}}
+				{{template "deep".}}
+{{end}}
+
+
+{{define "blog_page"}}
+	{{template "head".}}
+	{{template "header".}}
+    {{$SiteConfig := .SiteConfig}}
+<div class="blog-single">
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col-lg-8 m-15px-tb">
+                    <article class="article">
+                        <div class="article-img">
+                            <img src="{{.SiteConfig.SiteUrl}}static/cdn/blog/{{.Blog.BlogImage}}" title="{{.Blog.BlogTitle}}" alt="{{.Blog.BlogTitle}}">
+                        </div>
+                        <div class="article-title">
+                            <h6><a href="{{.SiteConfig.SiteUrl}}blog/category/{{.Blog.CategoryLink}}" style="color:{{.Blog.CategoryColor}}">{{.Blog.CategoryName}}</a></h6>
+                            <h1>{{.Blog.BlogTitle}}</h1>
+                            <div class="media">
+                                <div class="avatar">
+                                    <img src="{{.SiteConfig.SiteUrl}}static/cdn/profile/{{.Owner.Photo}}" title="{{.Owner.Nick}}" alt="{{.Owner.Nick}}">
+                                </div>
+                                <div class="media-body">
+                                    <label><a href="{{.SiteConfig.SiteUrl}}@{{.Owner.Link}}">{{.Owner.Nick}}</a></label>
+                                    <span>{{.Blog.BlogDate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="article-content">
+                         	{{.BlogContent}}
+                        </div>
+                        <div class="nav tag-cloud">
+                        	{{range .BlogTags}}
+                                <a href="{{$SiteConfig.SiteUrl}}blog/tags/{{.}}">{{.}}</a>
+                            {{end}}
+                        </div>
+                    </article>
+                     <div id="comments" class="card">
+                            <div class="header">Comments · {{.CommentCount}}</div>
+                            <div class="body">
+                                <ul class="comment-reply list-unstyled">
+                                	{{range .Comment}}
+                                    <li class="row clearfix">
+                                        <div class="icon-box col-md-2 col-4"><img class="d-flex mr-3 rounded-circle" src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{.Owner.Photo}}" title="{{.Owner.Nick}}" alt="{{.Owner.Nick}}"></div>
+                                        <div class="text-box col-md-10 col-8 p-l-0 p-r0">
+                                            <h5 class="m-b-0"><a href="{{$SiteConfig.SiteUrl}}@{{.Owner.Link}}">{{.Owner.Nick}}</a></h5>
+                                            <p>{{.Content}}</p>
+                                            <ul class="list-inline">
+                                                <li><a href="javascript:void(0);">{{.Date}}</a></li>
+                                                <li><a href="javascript:void(0);">Reply</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    {{end}}
+                                </ul>                                        
+                            </div>
+                        </div>
+                    {{if eq .SessionBool true}}
+                    <div class="contact-form article-comment"><div class="header">Leave a Reply</div>
+                        <form id="CommentBlog" method="POST" action="/backend/commentblog">
+                            <div class="row">
+                            	<input name="blog" id="blog" value="{{.Blog.BlogId}}" style="display:none">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea name="content" id="content" placeholder="Comment content" rows="4" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="send">
+                                        <button class="px-btn theme"><span>Submit</span> <i class="fa-solid fa-arrow-right"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    {{end}}
+                </div>
+                <div class="col-lg-4 m-15px-tb blog-aside">
+                    <!-- Author -->
+                    <div class="widget widget-author">
+                        <div class="widget-title">
+                            <h3>Author</h3>
+                        </div>
+                        <div class="widget-body">
+                            <div class="media align-items-center">
+                                <div class="avatar">
+                                   <img src="{{.SiteConfig.SiteUrl}}static/cdn/profile/{{.Owner.Photo}}" title="{{.Owner.Nick}}" alt="{{.Owner.Nick}}">
+                                </div>
+                                <div class="media-body">
+                                    <h6><a href="{{.SiteConfig.SiteUrl}}@{{.Owner.Link}}" title="{{.Owner.Nick}} ({{.Owner.Name}})">{{.Owner.Nick}}</a></h6>
+                                </div>
+                            </div>
+                            <p>{{.Owner.About}}</p>
+                        </div>
+                    </div>
+                    <!-- End Author -->
+                    <!-- Trending Post -->
+                    <div class="widget widget-post">
+                        <div class="widget-title">
+                            <h3>Trending Now</h3>
+                        </div>
+                        <div class="widget-body">
+
+                        </div>
+                    </div>
+                    <!-- End Trending Post -->
+                    <!-- Latest Post -->
+                    <div class="widget widget-latest-post">
+                        <div class="widget-title">
+                            <h3>Latest Post</h3>
+                        </div>
+                        <div class="widget-body">
+                        	{{range .Blogs}}
+                            <div class="latest-post-aside media">
+                                <div class="lpa-left media-body">
+                                    <div class="lpa-title">
+                                        <h5><a href="{{$SiteConfig.SiteUrl}}blog/{{.BlogLink}}">{{.BlogTitle}}</a></h5>
+                                    </div>
+                                    <div class="lpa-meta">
+                                        <a class="name" href="{{$SiteConfig.SiteUrl}}@{{.BlogAuthorLink}}">{{.BlogAuthorNick}}</a>
+                                        <a class="date" href="#">{{.BlogDate}}</a>
+                                    </div>
+                                </div>
+                                <div class="lpa-right">
+                                    <a href="{{$SiteConfig.SiteUrl}}blog/{{.BlogLink}}">
+                                        <img src="{{$SiteConfig.SiteUrl}}static/cdn/blog/{{.BlogImage}}" title="{{.BlogTitle}}" alt="{{.BlogTitle}}">
+                                    </a>
+                                </div>
+                            </div>
+                            {{end}}
+                        </div>
+                    </div>
+                    <!-- End Latest Post -->
+                    <!-- widget Tags -->
+                    <div class="widget widget-tags">
+                        <div class="widget-title">
+                            <h3>Latest Tags</h3>
+                        </div>
+                        <div class="widget-body">
+                            <div class="nav tag-cloud">
+                            	{{range .BlogTags}}
+                                <a href="{{$SiteConfig.SiteUrl}}blog/tags/{{.}}">{{.}}</a>
+                                {{end}}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End widget Tags -->
+                </div>
+            </div>
+        </div>
+    </div>
+				{{template "footer".}}
+				{{template "deep".}}
+{{end}}

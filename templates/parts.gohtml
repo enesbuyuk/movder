@@ -1,0 +1,196 @@
+{{define "head"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" type="image/png" href="{{.SiteConfig.SiteUrl}}static/movderheme/favicon.png">
+	<meta name="description" content="{{.SiteConfig.MetaDescription}}">
+	<meta name="keywords" content="{{.SiteConfig.MetaKeywords}}">
+	<title>{{.TitlePage}}</title>
+
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@3/dark.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="{{.SiteConfig.SiteUrl}}static/movderheme/main.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{{.SiteConfig.SiteUrl}}static/movderheme/extra.css" rel="stylesheet">
+	
+	<!--Slick Slider-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+
+	<!--VERSION 2-->
+	<link rel="stylesheet" type="text/css" href="{{.SiteConfig.SiteUrl}}static/v2/navbar.css" rel="stylesheet">
+
+	<script>var LanguageSession = "{{.Language.Language}}";</script>
+
+	
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+		<script type="text/javascript" src="{{.SiteConfig.SiteUrl}}static/v2/extra.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/sharer.js@latest/sharer.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+	<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>-->
+</head>
+{{end}}
+
+{{define "header"}}
+<body>
+<header id="navbar">
+        <nav class="navbar-container max-container">
+
+          <button type="button" class="navbar-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navbar-menu">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <div id="navbar-menu" class="left-sidebar">
+            <ul class="navbar-links">
+              <li class="navbar-item"><a class="navbar-link" href="{{.SiteConfig.SiteUrl}}"><i class="fas fa-home fa-fw "></i> {{.Language.Home}}</a></li>
+              <li class="navbar-item"><a class="navbar-link" href="{{.SiteConfig.SiteUrl}}all"><i class="fas fa-film fa-fw "></i> {{.Language.Films}}</a></li>
+              <li class="navbar-item"><a class="navbar-link" href="{{.SiteConfig.SiteUrl}}lists"><i class="fas fa-list fa-fw "></i> {{.Language.Lists}}</a></li>
+              <!--<li class="navbar-item"><a class="navbar-link" href="{{.SiteConfig.SiteUrl}}social"><i class="fas fa-users fa-fw "></i> {{.Language.Social}}</a></li>-->
+              <li class="navbar-item"><a class="navbar-link" href="{{.SiteConfig.SiteUrl}}blog"><i class="fas fa-blog fa-fw "></i> Blog</a></li>
+            </ul>
+          </div>
+
+        <a href="/" class="home-link">
+			<div class="navbar-logo">
+				<img id="logodesktop1" class="navbar-logo logodesktop" src="{{.SiteConfig.SiteUrl}}static/v2/logo-1.png">
+				<img id="logodesktop2" class="navbar-logo logodesktop" src="{{.SiteConfig.SiteUrl}}static/v2/logo-2.png">
+				<img id="logomobile1" class="navbar-logo logomobile" src="{{.SiteConfig.SiteUrl}}static/v2/logomobile.png">
+			</div>
+       </a>
+	
+		<li class="home-link nav-item dropdown no-arrow">
+			<a class="dropdown-toggle" href="{{.SiteConfig.SiteUrl}}" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-language fa-fw"></i>
+			</a>
+			<div class="dropdown-list_custom dropdown-menu  bg-dark shadow-sm animated--grow-in" aria-labelledby="alertsDropdown">
+			<h6 class="dropdown-header">
+			Language
+			</h6>
+			<a class="dropdown-item text-center small text-gray-500" href="javascript:Language('English');">English</a>
+				<a class="dropdown-item text-center small text-gray-500"  href="javascript:Language('Turkish');">Turkish</a>
+			</div>
+		</li>
+
+		{{if eq .SessionBool true}}
+			<a href="{{.SiteConfig.SiteUrl}}chat" class="home-link" id="topchat"><i class="fa-solid fa-paper-plane fa-fw"></i><span class="badge badge-danger bg-gradient-danger" id="dm-notification"></span></a>
+
+		<li class="home-link nav-item dropdown no-arrow mx-1" id="topnotification">
+			<a class="dropdown-toggle" href="{{.SiteConfig.SiteUrl}}" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell fa-fw"></i><span class="badge badge-danger bg-gradient-danger" id="NotificationCount"></span></a>
+			<div class="dropdown-list dropdown-menu dropdown-menu-right bg-dark shadow-sm animated--grow-in" aria-labelledby="alertsDropdown" id="GetNotification">
+			</div>
+		</li>
+
+		<li class="home-link nav-item dropdown no-arrow" style="display: inline;">
+			<a class="dropdown-toggle pr-0" href="{{.SiteConfig.SiteUrl}}" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="mr-2 d-none d-lg-inline small">{{.Session.Nick}}</span>
+				<img class="img-profile rounded-circle" style="width:auto !important;height:40px" src="{{.SiteConfig.SiteUrl}}static/cdn/profile/{{.Session.Photo}}">
+			</a>
+			<div class="dropdown-menu dropdown-menu-right bg-dark shadow-sm animated--grow-in" aria-labelledby="userDropdown">
+			{{if eq .Session.Authority "owner" "admin" "moderator"}}
+				<a class="dropdown-item" href="{{.SiteConfig.SiteUrl}}panel"><i class="fas fa-fire fa-sm fa-fw mr-2 ri"></i>MOVDER Panel</a>
+			{{end}}
+				<a class="dropdown-item" href="{{.SiteConfig.SiteUrl}}@{{.Session.Link}}"><i class="fas fa-user-circle fa-sm fa-fw mr-2 ri"></i>Profile</a>
+				<a class="dropdown-item" href="{{.SiteConfig.SiteUrl}}@{{.Session.Link}}/films"><i class="fas fa-bookmark fa-sm fa-fw mr-2 ri"></i>{{.Language.Films}}</a>
+				<a class="dropdown-item" href="{{.SiteConfig.SiteUrl}}@{{.Session.Link}}/diary"><i class="far fa-calendar-days fa-sm fa-fw mr-2 ri"></i>Diary</a>
+				<a class="dropdown-item" href="{{.SiteConfig.SiteUrl}}@{{.Session.Link}}/watchlist"><i class="fas fa-clock fa-sm fa-fw mr-2 ri"></i>{{.Language.Watchlist}}</a>
+				<a class="dropdown-item" href="{{.SiteConfig.SiteUrl}}@{{.Session.Link}}/favorite"><i class="fas fa-heart fa-sm fa-fw mr-2 ri"></i>Favorites</a>
+				<a class="dropdown-item" href="{{.SiteConfig.SiteUrl}}@{{.Session.Link}}/lists"><i class="fas fa-list-alt fa-sm fa-fw mr-2 ri"></i>Your Lists</a>
+				<a class="dropdown-item" href="{{.SiteConfig.SiteUrl}}@{{.Session.Link}}/settings"><i class="fas fa-cog fa-sm fa-fw mr-2 ri"></i>Settings</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="{{.SiteConfig.SiteUrl}}signout"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 ri"></i>Sign Out</a>
+			</div>
+		</li>
+		{{else}}
+		<a href="{{.SiteConfig.SiteUrl}}signin" class="home-link" style="background: var(--primary);margin-left: auto;"><i class="fa-solid fa-arrow-right-to-bracket fa-fw"></i> {{.Language.Signin}}</a>
+		<a id="topsignupbutton" href="{{.SiteConfig.SiteUrl}}signup" class="home-link"><i class="fa-solid fa-user-plus fa-fw"></i> {{.Language.Signup}}</a>
+		{{end}}
+        </nav>
+    </header>
+    <form id="topsearchbox" class="d-sm-inline-block form-inline mw-100 navbar-search" method="GET" action="/search">
+			<div class="input-group">
+			<input type="text" id="searchbox" class="form-control bg-dark border-0" style="height: 40px; " placeholder="Search for Movies, Films, TV Shows, People" aria-label="Search" aria-describedby="basic-addon2" name="q">
+			<input type="text" name="in" value="movies" style="display:none">
+			<div class="input-group-append">
+			<button class="btn bg-dark text-white" type="submit"><i class="fas fa-search fa-sm"></i></button>
+			</div>
+			</div>
+		</form>
+
+			<div id="SpaceOfSearchBox"><br><br><br><br></div>
+{{end}}
+{{define "footer"}}
+<div class="pt-5 pb-4 bg-dark footer">
+<div class="container">
+<div class="row">
+<div class="col-xl-3 col-md-6 mb-4">
+<h6>BEST LANGUAGE GENRE MOVIES</h6>
+<ul>
+<li><a href="{{.SiteConfig.SiteUrl}}#">Punjabi Action Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">English Animated Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">English Fantasy Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">English Comedy Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">English Action Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">Tamil Action Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">Hindi Animated Movies</a></li>
+</ul>
+</div>
+<div class="col-xl-3 col-md-6 mb-4">
+<h6>MOVIES BY GENRE</h6>
+<ul>
+<li><a href="{{.SiteConfig.SiteUrl}}#">Best Animated Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">Best Fantasy Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">Best Comedy Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">Best Action Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">Tamil Action Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">Punjabi Action Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">Hindi Animated Movies</a></li>
+</ul>
+</div>
+<div class="col-xl-3 col-md-6 mb-4">
+<h6>POPULAR MOVIES</h6>
+<ul>
+<li><a href="{{.SiteConfig.SiteUrl}}#">English Comedy Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">English Action Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">Punjabi Action Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">English Animated Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">English Fantasy Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">Tamil Action Movies</a></li>
+<li><a href="{{.SiteConfig.SiteUrl}}#">Hindi Animated Movies</a></li>
+</ul>
+</div>
+<div class="col-xl-3 col-md-6 mb-4">
+<h6>About Movder</h6>
+	<ul>
+	<li><a href="{{.SiteConfig.SiteUrl}}about">{{.Language.About}}</a></li>
+	<li><a href="{{.SiteConfig.SiteUrl}}contact">{{.Language.Contact}}</a></li>
+	<li><a href="{{.SiteConfig.SiteUrl}}faq">FAQ</a></li>
+	<li><a href="{{.SiteConfig.SiteUrl}}privacy">{{.Language.Privacy}}</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer class="py-4">
+<div class="container">
+<p class="m-0 text-center">Copyright &copy; <a href="{{.SiteConfig.SiteUrl}}"><strong>MOVDER</strong></a> 2022 | Film data from <a class="text-danger" target="_blank" href="https://www.themoviedb.org/">TMDb</a>.</p><center><a target="_blank" href="https://www.themoviedb.org/">
+<img width="auto" height="15px" id="footertmdblogo" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg"></a></center>
+</div>
+</footer>
+{{end}}
+
+{{define "deep"}}
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+  <script type="text/javascript" src="{{.SiteConfig.SiteUrl}}static/v2/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+{{end}}

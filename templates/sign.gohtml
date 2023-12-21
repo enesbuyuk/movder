@@ -1,0 +1,95 @@
+{{define "signin"}}
+	{{template "head".}}
+<body class="bg-gradient-primary">
+	<div class="container">
+		<div class="row justify-content-center align-items-center d-flex vh-100">
+			<div class="col-xl-10 col-lg-12 col-md-9">
+				<div class="card o-hidden border-0 shadow-lg my-5">
+					<div class="card-body p-0">
+						<div class="row">
+							<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+							<div class="col-lg-6">
+								<div class="p-5">
+									<div class="text-center"><h1 class="h4-900 mb-4">Welcome Back!</h1></div>
+									<form action="/signin" id="SignIn" method="post" class="user">
+										<div class="form-group">
+										<input type="text" name="kullaniciadi" id="kullaniciadi" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter your nick...">
+										</div>
+										<div class="form-group">
+										<input type="password" name="sifre" id="sifre" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+										</div>
+										<div class="form-group">
+										<div class="custom-control custom-checkbox small">
+										<input type="checkbox" class="custom-control-input" id="customCheck">
+										<label class="custom-control-label" for="customCheck">Remember Me</label>
+										</div>
+										</div>
+										<button type="submit" class="btn btn-primary btn-user btn-block">Login</a></button>
+										<hr>
+										<a href="{{.SiteConfig.SiteUrl}}" class="btn btn-google btn-user btn-block"><i class="fab fa-google fa-fw"></i> Login with Google</a>
+										<a href="{{.SiteConfig.SiteUrl}}" class="btn btn-facebook btn-user btn-block"><i class="fab fa-facebook-f fa-fw"></i> Login with Facebook</a>
+									</form>
+									<hr>
+									<div class="text-center"><a class="small" href="{{.SiteConfig.SiteUrl}}forgot">Forgot Password?</a></div>
+									<div class="text-center"><a class="small" href="{{.SiteConfig.SiteUrl}}signup">Create an Account!</a></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{template "deep".}}
+{{end}}
+
+{{define "signup"}}
+	{{template "head".}}
+<body class="bg-gradient-primary">
+	<div class="container">
+		<div class="row justify-content-center align-items-center d-flex vh-100">
+			<div class="col-xl-10 col-lg-12 col-md-9">
+				<div class="card o-hidden border-0 shadow-lg my-5">
+					<div class="card-body p-0">
+						<div class="row">
+						<div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+						<div class="col-lg-7">
+							<div class="p-5">
+								<div class="text-center"><h1 class="h4 mb-4">Create an Account!</h1></div>
+									<form action="/signup" id="SignUp" method="post" class="user">
+										<div class="form-group">
+											<input type="text" class="form-control form-control-user" id="name" name="name" placeholder="Your Name">
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control form-control-user" id="nick" name="nick" placeholder="Your Nick">
+										</div>
+										<div class="form-group">
+											<input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Email Address">
+										</div>
+										<div class="form-group row">
+											<div class="col-sm-6 mb-3 mb-sm-0">
+											<input type="password" class="form-control form-control-user" id="password1" name="password1" placeholder="Password">
+											</div>
+											<div class="col-sm-6">
+											<input type="password" class="form-control form-control-user" id="password2" name="password2" placeholder="Repeat Password">
+											</div>
+										</div>
+										<button type="submit" class="btn btn-primary btn-user btn-block">Register Account</a></button>
+										<hr>
+										<a href="{{.SiteConfig.SiteUrl}}" class="btn btn-google btn-user btn-block"><i class="fab fa-google fa-fw"></i> Login with Google</a>
+										<a href="{{.SiteConfig.SiteUrl}}" class="btn btn-facebook btn-user btn-block"><i class="fab fa-facebook-f fa-fw"></i> Login with Facebook</a>
+									</form>
+									<hr>
+									<div class="text-center"><a class="small" href="{{.SiteConfig.SiteUrl}}forgot">Forgot Password?</a></div>
+									<div class="text-center"><a class="small" href="{{.SiteConfig.SiteUrl}}signin">Already have an account? Login!</a></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+	</div>
+
+	{{template "deep".}}
+{{end}}

@@ -1,0 +1,1019 @@
+{{define "filssm"}}
+	{{template "head".}}
+	{{template "header".}}
+	{{$SiteConfig := .SiteConfig}}
+	{{$Film := .Film}}
+
+
+	<div class="col-xl-3 col-lg-3"></div>
+	<div class="col-xl-9 col-lg-9 film_background">
+	  <img class="demo-bg" src="https://image.tmdb.org/t/p/w1920_and_h1080_multi_faces{{.Film.Image}}" alt=""></div>
+<div class="capsule_film">
+<div class="row mb-4 pb-2 list-bp bg-opacity ">
+<div class="col-xl-3 col-lg-3">
+<div class="pl-3 pt-3 pb-3 widget mb-4">
+
+{{if eq (len .Film.Image) 0}}
+<img src="{{$SiteConfig.SiteUrl}}static/cdn/default/film_page.jpg" class="img-fluid rounded" alt="...">
+{{else}}
+<img src="https://image.tmdb.org/t/p/w500{{.Film.Image}}" class="img-fluid rounded" alt="...">
+{{end}}
+
+<h1 class="h6 mb-0 mt-3 font-weight-bold">Director</h1>
+	<p>{{range .Credit.Crew}}
+		{{if eq .Job "Director"}}
+		{{.Name}}&nbsp;&nbsp;&nbsp;
+		{{end}}
+	{{end}}</p>
+<h1 class="h6 mb-0 mt-3 font-weight-bold">Writers</h1>
+	<p>{{range .Credit.Crew}}
+		{{if eq .Job "Writer"}}
+		{{.Name}},
+		{{end}}
+	{{end}}
+	{{range .Credit.Crew}}
+		{{if eq .Job "Screenplay"}}
+		{{.Name}},
+		{{end}}
+	{{end}}</p>
+<h1 class="h6 mb-0 mt-3 font-weight-bold">Plot</h1>
+<p class="mb-0">{{.Film.Overview}}</p>
+</div>
+</div>
+<div class="col-xl-9 col-lg-9">
+<div class="info-header mb-4">
+<div class="d-flex align-items-center justify-content-between p-3">
+<div>
+<h3 class="mb-0 mt-0 font-weight-bold">{{.Film.Title}}&nbsp;<small>({{.Film.Date}})</small></h3>
+<p class="mb-0 text-gray-800"><small class="text-muted"><i class="fas fa-film fa-fw fa-sm mr-1"></i> Action / Adventure / Science Fiction / 3D</small></p>
+</div>
+<div>
+
+	{{if ne .Film.FilmBudget "0"}}
+<p class="mb-0"><i class="fas fa-money-bill fa-sm fa-fw mr-1"></i> BUDGET: <span class="text-white rounded px-2 py-1 bg-dark">$ {{.Film.FilmBudget}}</span></p>
+	{{end}}
+	<div class="bg-opacity shadow-sm rounded text-center p-2 mt-4 mr-5 love-box">
+<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i> {{.Film.Vote}}</h6>
+<small style="color:#ccc">{{.Film.VoteCount}}</small>
+</div>
+
+</div>
+</div>
+<div class="d-flex align-items-center justify-content-between pt-1 pb-3 px-3">
+<div class="d-flex">
+
+<style type="text/css">
+	.film_icon{color:#FFF;text-align:center;margin-right:10px}
+	.film_icon i{font-size:28px;margin-bottom:10px}
+	.film_icon_active{color: #9441ff !important}
+</style>
+
+	{{if eq .Watchedlist 0}}
+	<a id="watchedlist{{.Film.Id}}" href="javascript:watchedlist('{{.Film.Id}}','{{.Film.FilmType}}');" class="d-sm-inline-block film_icon">
+		<i class="fa-regular fa-bookmark only_icon"></i><br>Watched
+	</a>
+	<a id="diary{{.Film.Id}}" href="javascript:watchedlist('{{.Film.Id}}','{{.Film.FilmType}}','diary');" class="film_icon d-none">
+		<i class="fa-regular fa-calendar-days only_icon"></i><br>Diary
+	</a>
+	{{else}}
+	<a id="watchedlist{{.Film.Id}}" href="javascript:watchedlist('{{.Film.Id}}','{{.Film.FilmType}}');" class="d-sm-inline-block film_icon film_icon_active">
+		<i class="fa-regular fa-bookmark only_icon"></i><br>Watched
+	</a>
+		{{if eq .Diary 0}}
+		<a id="diary{{.Film.Id}}" href="javascript:watchedlist('{{.Film.Id}}','{{.Film.FilmType}}','diary');" class="d-sm-inline-block film_icon">
+			<i class="fa-regular fa-calendar-days only_icon"></i><br>Diary
+		</a>
+		{{else}}
+		<a id="diary{{.Film.Id}}" href="javascript:watchedlist('{{.Film.Id}}','{{.Film.FilmType}}','diary');" class="d-sm-inline-block film_icon film_icon_active">
+			<i class="fa-regular fa-calendar-days only_icon"></i><br>Diary
+		</a>
+		{{end}}
+	{{end}}
+
+	{{if eq .Favoritelist 0}}
+	<a id="favoritelist{{.Film.Id}}" href="javascript:favorite('{{.Film.Id}}','{{.Film.FilmType}}');" class="d-sm-inline-block film_icon">
+		<i class="fa-regular fa-heart only_icon"></i><br>Favorite
+	</a>
+	{{else}}
+	<a id="favoritelist{{.Film.Id}}" href="javascript:favorite('{{.Film.Id}}','{{.Film.FilmType}}');" class="d-sm-inline-block film_icon film_icon_active">
+		<i class="fa-regular fa-heart only_icon"></i><br>Favorite
+	</a>
+	{{end}}
+
+
+	{{if eq .Watchlist 0}}
+	<a id="watchlist{{.Film.Id}}" href="javascript:watchlist('{{.Film.Id}}','{{.Film.FilmType}}');" class="d-sm-inline-block film_icon">
+		<i class="fa-regular fa-clock only_icon"></i><br>Watchlist
+	</a>
+	{{else}}
+	<a id="watchlist{{.Film.Id}}" href="javascript:watchlist('{{.Film.Id}}','{{.Film.FilmType}}');" class="d-sm-inline-block film_icon film_icon_active">
+		<i class="fa-regular fa-clock only_icon"></i><br>Watchlist
+	</a>
+	{{end}}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<div>
+	<fieldset class="rate">
+			<span class="rounded bg-primary text-white pl-1 pr-1"><b>{{.RateCount}}/10</b></span>
+
+	    <span class="ratestar {{if ge .Rate 20}}colorgrad1{{end}}" title="20/2 star" onclick="rate('20','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+	    <span class="ratestar half {{if ge .Rate 19}}colorgrad1{{end}}" title="19/2 star" onclick="rate('19','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+
+	    <span class="ratestar {{if ge .Rate 18}}colorgrad1{{end}}" title="18/2 star" onclick="rate('18','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+	    <span class="ratestar half {{if ge .Rate 17}}colorgrad1{{end}}" title="17/2 star" onclick="rate('17','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+
+	    <span class="ratestar {{if ge .Rate 16}}colorgrad1{{end}}" title="16/2 star" onclick="rate('16','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+	    <span class="ratestar half {{if ge .Rate 15}}colorgrad1{{end}}" title="15/2 star" onclick="rate('15','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+	    
+	    <span class="ratestar {{if ge .Rate 14}}colorgrad1{{end}}" title="14/2 star" onclick="rate('14','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+	    <span class="ratestar half {{if ge .Rate 13}}colorgrad1{{end}}" title="13/2 star" onclick="rate('13','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+
+	    <span class="ratestar {{if ge .Rate 12}}colorgrad1{{end}}" title="12/2 star" onclick="rate('12','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+	    <span class="ratestar half {{if ge .Rate 11}}colorgrad1{{end}}" title="11/2 star" onclick="rate('11','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+
+	    <span class="ratestar {{if ge .Rate 10}}colorgrad1{{end}}" title="10/2 star" onclick="rate('10','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+	    <span class="ratestar half {{if ge .Rate 9}}colorgrad1{{end}}" title="9/2 star" onclick="rate('9','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+
+	    <span class="ratestar {{if ge .Rate 8}}colorgrad1{{end}}" title="8/2 star" onclick="rate('8','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+	    <span class="ratestar half {{if ge .Rate 7}}colorgrad1{{end}}" title="7/2 star" onclick="rate('7','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+
+	    <span class="ratestar {{if ge .Rate 6}}colorgrad1{{end}}" title="6/2 star" onclick="rate('6','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+	    <span class="ratestar half {{if ge .Rate 5}}colorgrad1{{end}}" title="5/2 star" onclick="rate('5','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+
+	    <span class="ratestar {{if ge .Rate 4}}colorgrad1{{end}}" title="4/2 star" onclick="rate('4','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+	    <span class="ratestar half {{if ge .Rate 3}}colorgrad1{{end}}" title="3/2 star" onclick="rate('3','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+
+	    <span class="ratestar {{if ge .Rate 2}}colorgrad1{{end}}" title="2/2 star" onclick="rate('2','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+	    <span class="ratestar half {{if ge .Rate 1}}colorgrad1{{end}}" title="1/2 star" onclick="rate('1','{{.Film.Id}}','{{.Film.FilmType}}')"></span>
+	</fieldset>
+
+	</div>
+</div>
+<div class="d-flex">
+	<a href="javascript:CopyUrl();" class="d-sm-inline-block btn btn-sm btn-primary btn-circle">
+		<i class="fas fa-copy only_icon"></i>
+	</a>
+	<a href="#" class="d-sm-inline-block btn btn-sm btn-dark btn-circle" data-title="{{.Film.Title}}" data-url="{{.SiteConfig.SiteUrl}}" data-sharer="email" data-to="contact@movder.com">
+		<i class="fa-solid fa-envelope only_icon"></i>
+	</a>
+	<a href="#" class="d-sm-inline-block btn btn-sm btn-primary btn-circle" data-title="{{.Film.Title}}" data-url="{{.SiteConfig.SiteUrl}}" data-sharer="facebook">
+		<i class="fab fa-facebook-f only_icon"></i>
+	</a>
+	<a href="#" class="d-sm-inline-block btn btn-sm btn-info btn-circle" data-title="{{.Film.Title}}" data-url="{{.SiteConfig.SiteUrl}}" data-sharer="twitter">
+		<i class="fab fa-twitter only_icon"></i>
+	</a>
+	<a href="#" class="d-sm-inline-block btn btn-sm btn-danger btn-circle" data-title="{{.Film.Title}}" data-url="{{.SiteConfig.SiteUrl}}" data-sharer="instagram">
+		<i class="fab fa-instagram only_icon"></i>
+	</a>
+	<a href="#" class="d-sm-inline-block btn btn-sm btn-success btn-circle" data-title="{{.Film.Title}}" data-url="{{.SiteConfig.SiteUrl}}" data-sharer="whatsapp">
+		<i class="fab fa-whatsapp only_icon"></i>
+	</a>
+</div>
+
+
+
+</div>
+</div>
+<div class="bg-opacity p-3 widget shadow rounded mb-4 mr-2">
+<ul class="nav nav-tabs navbar-dark" id="myTab" role="tablist">
+<li class="nav-item">
+<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Summary</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Cast
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="videos-tab" data-toggle="tab" href="#videos" role="tab" aria-controls="videos" aria-selected="false">Videos
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Comments ({{len .Comments}})</a>
+</li>
+</ul>
+<div class="tab-content" id="myTabContent">
+<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+<center><h6 class="mt-0 mb-3">“ {{.Film.Tagline}} ”</h6></center>
+<h6 class="mt-0 mb-3">Overview</h6>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;{{.Film.Overview}}</p>
+</div>
+<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+<div class="row">
+<div class="col-xl-6 col-lg-6">
+<h5 class="h6 mt-0 mb-3 font-weight-bold">CAST</h5>
+	{{range .Credit.Cast}}
+	<div class="artist-list mb-3">
+		<a class="d-flex align-items-center" href="{{$SiteConfig.SiteUrl}}person/{{.Id}}/{{.Url}}">
+			<div class="dropdown-list-image mr-3">
+					{{if eq (len .Image) 0}}
+						<img class="rounded-circle" src="{{$SiteConfig.SiteUrl}}static/cdn/profile/default.jpg" alt="{{.Name}}">
+					{{else}}
+						<img class="rounded-circle" src="https://www.themoviedb.org/t/p/w100_and_h100_face/{{.Image}}" alt="{{.Name}}">
+					{{end}}
+				<div class="status-indicator bg-success"></div>
+			</div>
+		<div class="font-weight-bold">
+		<div class="text-truncate">{{.Name}}</div>
+		<div class="small text-white" alt="{{.Department}}">{{.Character}}</div>
+		</div>
+		</a>
+	</div>
+	{{end}}
+</div>
+<div class="col-xl-6 col-lg-6">
+<h5 class="h6 mt-0 mb-3 font-weight-bold">CREW</h5>
+	{{range .Credit.Crew}}
+	<div class="artist-list mb-3">
+		<a class="d-flex align-items-center" href="{{$SiteConfig.SiteUrl}}person/{{.Id}}/{{.Url}}">
+			<div class="dropdown-list-image mr-3">
+					{{if eq (len .Image) 0}}
+						<img class="rounded-circle" src="{{$SiteConfig.SiteUrl}}static/cdn/profile/default.jpg" alt="{{.Name}}">
+					{{else}}
+						<img class="rounded-circle" src="https://www.themoviedb.org/t/p/w100_and_h100_face/{{.Image}}" alt="{{.Name}}">
+					{{end}}
+				<div class="status-indicator bg-success"></div>
+			</div>
+		<div class="font-weight-bold">
+		<div class="text-truncate">{{.Name}}</div>
+		<div class="small text-white">{{.Department}}</div>
+		</div>
+		</a>
+	</div>
+	{{end}}
+</div>
+
+</div>
+</div>
+<div class="tab-pane fade" id="videos" role="tabpanel" aria-labelledby="videos-tab">
+<div class="row">
+<div class="col-xl-6 col-lg-6">
+<div class="mb-4">COMING SOON
+</div>
+</div>
+
+
+</div>
+</div>
+<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+<div class="card-body p-0 reviews-card">
+		{{range .Comments}}
+		<div class="media mb-4">
+		<img class="d-flex mr-3 rounded-circle" src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{.Photo}}" alt="{{.Nick}}">
+			<div class="media-body">
+				<div class="mt-0 mb-1">
+				<span class="h6 mr-2 font-weight-bold"><a href="{{$SiteConfig.SiteUrl}}@{{.Link}}">{{.Nick}}</a></span><span><i class="fa fa-calendar"></i>{{.Date}}</span>
+					<div class="stars-rating float-right">
+						<fieldset class="ratecomment">
+								<span class="rounded bg-primary text-white pl-1 pr-1"><b>{{.RateRound}}/10</b></span>
+								{{if eq .Rate 0}}
+								<span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="" title="14/2 star"></span>
+						    <span class="half" title="13/2 star"></span>
+
+						    <span class="" title="12/2 star"></span>
+						    <span class="half" title="11/2 star"></span>
+
+						    <span class="" title="10/2 star"></span>
+						    <span class="half" title="9/2 star"></span>
+
+						    <span class="" title="8/2 star"></span>
+						    <span class="half" title="7/2 star"></span>
+
+						    <span class="" title="6/2 star"></span>
+						    <span class="half" title="5/2 star"></span>
+
+						    <span class="" title="4/2 star"></span>
+						    <span class="half" title="3/2 star"></span>
+
+						    <span class="" title="2/2 star"></span>
+						    <span class="half" title="1/2 star"></span>
+								{{else if eq .Rate 1}}
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="" title="14/2 star"></span>
+						    <span class="half" title="13/2 star"></span>
+
+						    <span class="" title="12/2 star"></span>
+						    <span class="half" title="11/2 star"></span>
+
+						    <span class="" title="10/2 star"></span>
+						    <span class="half" title="9/2 star"></span>
+
+						    <span class="" title="8/2 star"></span>
+						    <span class="half" title="7/2 star"></span>
+
+						    <span class="" title="6/2 star"></span>
+						    <span class="half" title="5/2 star"></span>
+
+						    <span class="" title="4/2 star"></span>
+						    <span class="half" title="3/2 star"></span>
+
+						    <span class="" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 2}}   
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="" title="14/2 star"></span>
+						    <span class="half" title="13/2 star"></span>
+
+						    <span class="" title="12/2 star"></span>
+						    <span class="half" title="11/2 star"></span>
+
+						    <span class="" title="10/2 star"></span>
+						    <span class="half" title="9/2 star"></span>
+
+						    <span class="" title="8/2 star"></span>
+						    <span class="half" title="7/2 star"></span>
+
+						    <span class="" title="6/2 star"></span>
+						    <span class="half" title="5/2 star"></span>
+
+						    <span class="" title="4/2 star"></span>
+						    <span class="half" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 3}}   
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="" title="14/2 star"></span>
+						    <span class="half" title="13/2 star"></span>
+
+						    <span class="" title="12/2 star"></span>
+						    <span class="half" title="11/2 star"></span>
+
+						    <span class="" title="10/2 star"></span>
+						    <span class="half" title="9/2 star"></span>
+
+						    <span class="" title="8/2 star"></span>
+						    <span class="half" title="7/2 star"></span>
+
+						    <span class="" title="6/2 star"></span>
+						    <span class="half" title="5/2 star"></span>
+
+						    <span class="" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 4}}   
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="" title="14/2 star"></span>
+						    <span class="half" title="13/2 star"></span>
+
+						    <span class="" title="12/2 star"></span>
+						    <span class="half" title="11/2 star"></span>
+
+						    <span class="" title="10/2 star"></span>
+						    <span class="half" title="9/2 star"></span>
+
+						    <span class="" title="8/2 star"></span>
+						    <span class="half" title="7/2 star"></span>
+
+						    <span class="" title="6/2 star"></span>
+						    <span class="half" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 5}}   
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="" title="14/2 star"></span>
+						    <span class="half" title="13/2 star"></span>
+
+						    <span class="" title="12/2 star"></span>
+						    <span class="half" title="11/2 star"></span>
+
+						    <span class="" title="10/2 star"></span>
+						    <span class="half" title="9/2 star"></span>
+
+						    <span class="" title="8/2 star"></span>
+						    <span class="half" title="7/2 star"></span>
+
+						    <span class="" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 6}}   
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="" title="14/2 star"></span>
+						    <span class="half" title="13/2 star"></span>
+
+						    <span class="" title="12/2 star"></span>
+						    <span class="half" title="11/2 star"></span>
+
+						    <span class="" title="10/2 star"></span>
+						    <span class="half" title="9/2 star"></span>
+
+						    <span class="" title="8/2 star"></span>
+						    <span class="half" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 7}}
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="" title="14/2 star"></span>
+						    <span class="half" title="13/2 star"></span>
+
+						    <span class="" title="12/2 star"></span>
+						    <span class="half" title="11/2 star"></span>
+
+						    <span class="" title="10/2 star"></span>
+						    <span class="half" title="9/2 star"></span>
+
+						    <span class="" title="8/2 star"></span>
+						    <span class="half colorgrad1" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 8}}
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="" title="14/2 star"></span>
+						    <span class="half" title="13/2 star"></span>
+
+						    <span class="" title="12/2 star"></span>
+						    <span class="half" title="11/2 star"></span>
+
+						    <span class="" title="10/2 star"></span>
+						    <span class="half" title="9/2 star"></span>
+
+						    <span class="colorgrad1" title="8/2 star"></span>
+						    <span class="half colorgrad1" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 9}}
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="" title="14/2 star"></span>
+						    <span class="half" title="13/2 star"></span>
+
+						    <span class="" title="12/2 star"></span>
+						    <span class="half" title="11/2 star"></span>
+
+						    <span class="" title="10/2 star"></span>
+						    <span class="half colorgrad1" title="9/2 star"></span>
+
+						    <span class="colorgrad1" title="8/2 star"></span>
+						    <span class="half colorgrad1" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 10}}   
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="" title="14/2 star"></span>
+						    <span class="half" title="13/2 star"></span>
+
+						    <span class="" title="12/2 star"></span>
+						    <span class="half" title="11/2 star"></span>
+
+						    <span class="colorgrad1" title="10/2 star"></span>
+						    <span class="half colorgrad1" title="9/2 star"></span>
+
+						    <span class="colorgrad1" title="8/2 star"></span>
+						    <span class="half colorgrad1" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 11}}  
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="" title="14/2 star"></span>
+						    <span class="half" title="13/2 star"></span>
+
+						    <span class="" title="12/2 star"></span>
+						    <span class="half colorgrad1" title="11/2 star"></span>
+
+						    <span class="colorgrad1" title="10/2 star"></span>
+						    <span class="half colorgrad1" title="9/2 star"></span>
+
+						    <span class="colorgrad1" title="8/2 star"></span>
+						    <span class="half colorgrad1" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 12}}   
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="" title="14/2 star"></span>
+						    <span class="half" title="13/2 star"></span>
+
+						    <span class="colorgrad1" title="12/2 star"></span>
+						    <span class="half colorgrad1" title="11/2 star"></span>
+
+						    <span class="colorgrad1" title="10/2 star"></span>
+						    <span class="half colorgrad1" title="9/2 star"></span>
+
+						    <span class="colorgrad1" title="8/2 star"></span>
+						    <span class="half colorgrad1" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 13}}  
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="" title="14/2 star"></span>
+						    <span class="half colorgrad1" title="13/2 star"></span>
+
+						    <span class="colorgrad1" title="12/2 star"></span>
+						    <span class="half colorgrad1" title="11/2 star"></span>
+
+						    <span class="colorgrad1" title="10/2 star"></span>
+						    <span class="half colorgrad1" title="9/2 star"></span>
+
+						    <span class="colorgrad1" title="8/2 star"></span>
+						    <span class="half colorgrad1" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 14}}   
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half" title="15/2 star"></span>
+						    
+						    <span class="colorgrad1" title="14/2 star"></span>
+						    <span class="half colorgrad1" title="13/2 star"></span>
+
+						    <span class="colorgrad1" title="12/2 star"></span>
+						    <span class="half colorgrad1" title="11/2 star"></span>
+
+						    <span class="colorgrad1" title="10/2 star"></span>
+						    <span class="half colorgrad1" title="9/2 star"></span>
+
+						    <span class="colorgrad1" title="8/2 star"></span>
+						    <span class="half colorgrad1" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 15}}  
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="" title="16/2 star"></span>
+						    <span class="half colorgrad1" title="15/2 star"></span>
+						    
+						    <span class="colorgrad1" title="14/2 star"></span>
+						    <span class="half colorgrad1" title="13/2 star"></span>
+
+						    <span class="colorgrad1" title="12/2 star"></span>
+						    <span class="half colorgrad1" title="11/2 star"></span>
+
+						    <span class="colorgrad1" title="10/2 star"></span>
+						    <span class="half colorgrad1" title="9/2 star"></span>
+
+						    <span class="colorgrad1" title="8/2 star"></span>
+						    <span class="half colorgrad1" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 16}}   
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half" title="17/2 star"></span>
+
+						    <span class="colorgrad1" title="16/2 star"></span>
+						    <span class="half colorgrad1" title="15/2 star"></span>
+						    
+						    <span class="colorgrad1" title="14/2 star"></span>
+						    <span class="half colorgrad1" title="13/2 star"></span>
+
+						    <span class="colorgrad1" title="12/2 star"></span>
+						    <span class="half colorgrad1" title="11/2 star"></span>
+
+						    <span class="colorgrad1" title="10/2 star"></span>
+						    <span class="half colorgrad1" title="9/2 star"></span>
+
+						    <span class="colorgrad1" title="8/2 star"></span>
+						    <span class="half colorgrad1" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 17}} 
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="" title="18/2 star"></span>
+						    <span class="half colorgrad1" title="17/2 star"></span>
+
+						    <span class="colorgrad1" title="16/2 star"></span>
+						    <span class="half colorgrad1" title="15/2 star"></span>
+						    
+						    <span class="colorgrad1" title="14/2 star"></span>
+						    <span class="half colorgrad1" title="13/2 star"></span>
+
+						    <span class="colorgrad1" title="12/2 star"></span>
+						    <span class="half colorgrad1" title="11/2 star"></span>
+
+						    <span class="colorgrad1" title="10/2 star"></span>
+						    <span class="half colorgrad1" title="9/2 star"></span>
+
+						    <span class="colorgrad1" title="8/2 star"></span>
+						    <span class="half colorgrad1" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 18}}   
+						    <span class="" title="20/2 star"></span>
+						    <span class="half" title="19/2 star"></span>
+
+						    <span class="colorgrad1" title="18/2 star"></span>
+						    <span class="half colorgrad1" title="17/2 star"></span>
+
+						    <span class="colorgrad1" title="16/2 star"></span>
+						    <span class="half colorgrad1" title="15/2 star"></span>
+						    
+						    <span class="colorgrad1" title="14/2 star"></span>
+						    <span class="half colorgrad1" title="13/2 star"></span>
+
+						    <span class="colorgrad1" title="12/2 star"></span>
+						    <span class="half colorgrad1" title="11/2 star"></span>
+
+						    <span class="colorgrad1" title="10/2 star"></span>
+						    <span class="half colorgrad1" title="9/2 star"></span>
+
+						    <span class="colorgrad1" title="8/2 star"></span>
+						    <span class="half colorgrad1" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 19}}   
+						    <span class="" title="20/2 star"></span>
+						    <span class="half colorgrad1" title="19/2 star"></span>
+
+						    <span class="colorgrad1" title="18/2 star"></span>
+						    <span class="half colorgrad1" title="17/2 star"></span>
+
+						    <span class="colorgrad1" title="16/2 star"></span>
+						    <span class="half colorgrad1" title="15/2 star"></span>
+						    
+						    <span class="colorgrad1" title="14/2 star"></span>
+						    <span class="half colorgrad1" title="13/2 star"></span>
+
+						    <span class="colorgrad1" title="12/2 star"></span>
+						    <span class="half colorgrad1" title="11/2 star"></span>
+
+						    <span class="colorgrad1" title="10/2 star"></span>
+						    <span class="half colorgrad1" title="9/2 star"></span>
+
+						    <span class="colorgrad1" title="8/2 star"></span>
+						    <span class="half colorgrad1" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{else if eq .Rate 20}}
+						    <span class="colorgrad1" title="20/2 star"></span>
+						    <span class="half colorgrad1" title="19/2 star"></span>
+
+						    <span class="colorgrad1" title="18/2 star"></span>
+						    <span class="half colorgrad1" title="17/2 star"></span>
+
+						    <span class="colorgrad1" title="16/2 star"></span>
+						    <span class="half colorgrad1" title="15/2 star"></span>
+						    
+						    <span class="colorgrad1" title="14/2 star"></span>
+						    <span class="half colorgrad1" title="13/2 star"></span>
+
+						    <span class="colorgrad1" title="12/2 star"></span>
+						    <span class="half colorgrad1" title="11/2 star"></span>
+
+						    <span class="colorgrad1" title="10/2 star"></span>
+						    <span class="half colorgrad1" title="9/2 star"></span>
+
+						    <span class="colorgrad1" title="8/2 star"></span>
+						    <span class="half colorgrad1" title="7/2 star"></span>
+
+						    <span class="colorgrad1" title="6/2 star"></span>
+						    <span class="half colorgrad1" title="5/2 star"></span>
+
+						    <span class="colorgrad1" title="4/2 star"></span>
+						    <span class="half colorgrad1" title="3/2 star"></span>
+
+						    <span class="colorgrad1" title="2/2 star"></span>
+						    <span class="half colorgrad1" title="1/2 star"></span>
+						    {{end}}
+						</fieldset>
+					</div>
+				</div>
+				<p style="word-break: break-word;">{{.Content}}</p>
+			</div>
+		</div>
+		{{end}}
+
+		<!--
+<div class="media">
+<img class="d-flex mr-3 rounded-circle" src="img/s2.png" alt="">
+<div class="media-body">
+<div class="mt-0 mb-1">
+<span class="h6 mr-2 font-weight-bold">Mark Smith</span> <span><i class="fa fa-calendar"></i> Feb 12, 2018</span>
+<div class="stars-rating float-right"> <i class="fa fa-star active"></i>
+<i class="fa fa-star active"></i>
+<i class="fa fa-star"></i>
+<i class="fa fa-star"></i>
+<i class="fa fa-star"></i> <span class="rounded bg-warning text-dark pl-1 pr-1">5/3</span>
+</div>
+</div>
+<p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+<div class="media mt-4">
+<img class="d-flex mr-3 rounded-circle" src="img/s3.png" alt="">
+<div class="media-body">
+<div class="mt-0 mb-1">
+<span class="h6 mr-2 font-weight-bold">Ryan Printz</span> <span><i class="fa fa-calendar"></i> Feb 12, 2018</span>
+<div class="stars-rating float-right"> <i class="fa fa-star active"></i>
+<i class="fa fa-star active"></i>
+<i class="fa fa-star"></i>
+ <i class="fa fa-star"></i>
+<i class="fa fa-star"></i> <span class="rounded bg-warning text-dark pl-1 pr-1">5/3</span>
+</div>
+</div>
+<p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+</div>
+</div>
+</div>
+</div>-->
+
+</div>
+		{{if eq .SessionBool true}}
+		<div class="p-4 bg-opacity rounded mt-4">
+		<h5 class="card-title mb-4">Leave a Comment</h5>
+		<form id="FilmComment" method="POST" action="/backend/commentfilm">
+			<input style="display: none" name="film" id="film" value="{{.Film.Id}}"/>
+			<input style="display: none" name="filmtype" id="filmtype" value="{{.Film.FilmType}}"/>
+		<div class="row">
+		</div>
+		<div class="control-group form-group">
+		<div class="controls">
+		<label>Content <span class="text-danger">*</span></label>
+		<textarea rows="3" cols="100" class="form-control" name="content" id="content"></textarea>
+		</div>
+		</div>
+		<div class="text-right">
+		<button type="submit" class="btn btn-primary">Send Comment</button>
+		</div>
+		</form>
+		</div>
+		{{end}}
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div style="clear:both"></div>
+</div>
+<div class="container">
+{{if ne .Similar.TotalResults 0}}
+<div class="d-sm-flex align-items-center justify-content-between mt-4 mb-3">
+<h1 class="h5 mb-0">{{.Language.Advices}}</h1>
+</div>
+<div class="row">
+<div class="col-xl-12 col-md-12 mb-4">
+<div class="collections-slider">
+		{{range .Similar.Results}}
+		<div class="col-xl-2 col-md-6 mb-4">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','{{$Film.FilmType}}');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','{{$Film.FilmType}}');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','{{$Film.FilmType}}');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','{{$Film.FilmType}}');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i> {{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						{{if eq (len .Image) 0}}
+						<img src="{{$SiteConfig.SiteUrl}}static/cdn/default/film.jpg" class="card-img-top" alt="{{.Title}}">
+						{{else}}
+						<img src="https://www.themoviedb.org/t/p/w220_and_h330_face{{.Image}}" class="card-img-top" alt="{{.Title}}">
+						{{end}}
+					</div>
+					<div class="card-body p-2">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+</div>
+</div>
+</div>
+{{end}}
+</div>
+	{{template "footer".}}
+	{{template "deep".}}
+{{end}}

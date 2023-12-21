@@ -1,0 +1,118 @@
+{{define "person"}}
+	{{template "head".}}
+	{{template "header".}}
+	{{$SiteConfig := .SiteConfig}}
+<div class="container pt-5 pb-4">
+<div class="row list-bp">
+<div class="col-md-4 col-lg-3">
+<div class="bg-opacity p-3 widget shadow-sm rounded mb-4">
+{{if eq (len .Person.ProfilePath) 0}}
+<imgc lass="img-fluid rounded"  src="{{$SiteConfig.SiteUrl}}static/cdn/profile/default.jpg" alt="{{.Person.Name}}">
+{{else}}
+<img class="img-fluid rounded"  src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2{{.Person.ProfilePath}}" alt="{{.Person.Name}}">
+{{end}}
+<h1 class="h6 mb-3 mt-4 font-weight-bold">Personal Info</h1>
+<p class="mb-2"><i class="fas fa-baseball-ball fa-fw"></i> {{.Person.Department}}</p>
+<p class="mb-2"><i class="fas fa-user-circle fa-fw"></i> Known For | {{.Person.Department}}</p>
+<p class="mb-2"><i class="fas fa-venus-mars fa-fw"></i> Gender | {{if eq .Person.Gender 0}}Not specified{{else if eq .Person.Gender 1}}Female{{else if eq  .Person.Gender 2}}Male{{else if eq .Person.Gender 3}}Non-binary{{end}}</p>
+<p class="mb-2"><i class="fas fa-list-alt fa-fw"></i> Known Credits | 227</p>
+<p class="mb-2"><i class="fas fa-calendar-alt fa-fw"></i> Date of Birth | {{.Person.Birthday}}</p>
+ {{if ne .Person.Deathday ""}}<p class="mb-2"><i class="fas fa-calendar-alt fa-fw"></i> Date of Death | {{.Person.Deathday}}</p>{{end}}
+<p class="mb-2 pb-1"><i class="fas fa-map-marker-alt fa-fw"></i> {{.Person.PlaceofBirth}}</p>
+</div>
+</div>
+<div class="col-md-8 col-lg-9">
+<div class="bg-opacity info-header shadow-sm rounded mb-4">
+<div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+<div>
+<h3 class="mb-0 mt-0 font-weight-bold">{{.Person.Name}}</h3>
+<p class="mb-0 text-gray-800"><small><i class="fas fa-user-circle fa-fw fa-sm mr-1"></i> {{.Person.Department}}</small></p>
+</div>
+</div>
+<div class="p-3 mb-4">
+<h1 class="h6 mb-3 mt-0 font-weight-bold text-gray-900">Biography</h1>
+ <div>
+<p class="mb-0">&nbsp;&nbsp;{{if ne .Person.Biography ""}}{{.Person.Biography}}{{else}}{{end}}
+</p>
+</div>
+</div>
+</div>
+<div class="bg-opacity p-3 widget shadow-sm rounded mb-4">
+<h1 class="h6 mb-3 mt-0 font-weight-bold text-gray-900">Biography</h1>
+<div class="row">
+<div class="col-xl-3 col-md-6">
+<div class="card m-card shadow-sm border-0">
+<a href="movies-detail.html">
+<div class="m-card-cover">
+<div class="position-absolute bg-opacity shadow-sm-sm rounded text-center p-2 m-2 love-box">
+<h6 class="mb-0 font-weight-bold"><i class="fas fa-thumbs-up text-success"></i> 88%</h6>
+<small class="text-muted">23,421</small>
+</div>
+<img src="img/m1.jpg" class="card-img-top" alt="...">
+</div>
+<div class="card-body p-1">
+<h5 class="card-title text-white mb-1">Jumanji: The Next Level</h5>
+<p class="card-text"><small class="text-white">English</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> 22 AUG</small> </p>
+</div>
+</a>
+</div>
+</div>
+<div class="col-xl-3 col-md-6">
+<div class="card m-card shadow-sm border-0">
+<a href="movies-detail.html">
+<div class="m-card-cover">
+<div class="position-absolute bg-opacity shadow-sm-sm rounded text-center p-2 m-2 love-box">
+<h6 class="mb-0 font-weight-bold"><i class="fas fa-heart text-danger"></i> 50%</h6>
+<small class="text-muted">8,784</small>
+</div>
+<img src="img/m2.jpg" class="card-img-top" alt="...">
+</div>
+<div class="card-body p-1">
+<h5 class="card-title text-white mb-1">Gemini Man</h5>
+<p class="card-text"><small class="text-white">English</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> 22 AUG</small> </p>
+</div>
+</a>
+</div>
+</div>
+<div class="col-xl-3 col-md-6">
+<div class="card m-card shadow-sm border-0">
+<a href="movies-detail.html">
+<div class="m-card-cover">
+<div class="position-absolute bg-opacity shadow-sm-sm rounded text-center p-2 m-2 love-box">
+<h6 class="mb-0 font-weight-bold"><i class="fas fa-heart text-danger"></i> 20%</h6>
+<small class="text-muted">69,123</small>
+</div>
+<img src="img/m3.jpg" class="card-img-top" alt="...">
+ </div>
+<div class="card-body p-1">
+<h5 class="card-title text-white mb-1">The Current War</h5>
+<p class="card-text"><small class="text-white">English</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> 22 AUG</small> </p>
+</div>
+</a>
+</div>
+</div>
+<div class="col-xl-3 col-md-6">
+<div class="card m-card shadow-sm border-0">
+<a href="movies-detail.html">
+<div class="m-card-cover">
+<div class="position-absolute bg-opacity shadow-sm-sm rounded text-center p-2 m-2 love-box">
+<h6 class="mb-0 font-weight-bold"><i class="fas fa-heart text-danger"></i> 74%</h6>
+<small class="text-muted">88,865</small>
+</div>
+<img src="img/m4.jpg" class="card-img-top" alt="...">
+</div>
+<div class="card-body p-1">
+<h5 class="card-title text-white mb-1">Charlie's Angels</h5>
+<p class="card-text"><small class="text-white">English</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> 22 AUG</small> </p>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+	{{template "footer".}}
+	{{template "deep".}}
+{{end}}

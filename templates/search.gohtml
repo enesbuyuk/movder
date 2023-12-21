@@ -1,0 +1,486 @@
+{{define "search"}}
+	{{template "head".}}
+	{{template "header".}}
+	{{$SiteConfig := .SiteConfig}}
+	<div class="container">
+
+<div class="d-sm-flex align-items-center justify-content-between mt-5 mb-3">
+<h1 class="h5 mb-0 float-left">Movies</h1>
+
+	<a class="btn btn-dark" id="inmovies" style="border-radius: 0;" href="">In Movies</a>
+	<a class="btn btn-dark" id="inpeople" style="border-radius: 0;" href="">In People</a>
+	<a class="btn btn-dark" id="intvshow" style="border-radius: 0;" href="">In TV Show</a>
+<a href="#" class="float-right d-sm-inline-block btn btn-sm btn-primary shadow-sm">Reset Filters <i class="fas fa-times fa-sm text-white-50"></i></a>
+</div>
+
+<div class="row">
+<div class="col-xl-3 col-lg-4">
+<div class="filters mobile-filters shadow rounded bg-dark mb-4 d-none d-block d-md-none">
+<div class="border-bottom">
+<a class="h6 font-weight-bold d-block m-0 p-3" data-toggle="collapse" href="#mobile-filters" role="button" aria-expanded="false" aria-controls="mobile-filters">Filter By <i class="fas fa-angle-down float-right mt-1"></i></a>
+</div>
+<div id="mobile-filters" class="filters-body collapse multi-collapse">
+<div id="accordion">
+<div class="filters-card border-bottom p-3">
+<div class="filters-card-header" id="headingOffer">
+<h6 class="mb-0">
+<a href="#" class="btn-link" data-toggle="collapse" data-target="#collapseSort" aria-expanded="true" aria-controls="collapseSort">
+Sort by Products <i class="fas fa-angle-down float-right"></i>
+</a>
+</h6>
+</div>
+<div id="collapseSort" class="collapse" aria-labelledby="headingOffer" data-parent="#accordion">
+<div class="filters-card-body card-shop-filters">
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan111">
+<label class="custom-control-label" for="osahan111">Relevance </label>
+</div>
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan112">
+<label class="custom-control-label" for="osahan112">Price (Low to High)
+ </label>
+</div>
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan113">
+<label class="custom-control-label" for="osahan113">Price (High to Low)
+</label>
+</div>
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan114">
+<label class="custom-control-label" for="osahan114">Discount (High to Low)
+</label>
+</div>
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan115">
+<label class="custom-control-label" for="osahan115">Name (A to Z)
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="filters-card border-bottom p-3">
+<div class="filters-card-header" id="headingTwo">
+<h6 class="mb-0">
+<a href="#" class="btn-link" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="true" aria-controls="collapsetwo">
+Genre
+<i class="fas fa-angle-down float-right"></i>
+</a>
+</h6>
+</div>
+<div id="collapsetwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+<div class="filters-card-body card-shop-filters">
+	<form class="filters-search mb-3">
+		<div class="form-group">
+		<i class="fas fa-search"></i>
+		<input type="text" class="form-control" placeholder="Start typing to search...">
+		</div>
+	</form>
+	{{range .Genre.Genres}}
+	<div class="custom-control custom-checkbox">
+		<input type="checkbox" class="custom-control-input" id="cat{{.Id}}">
+		<label class="custom-control-label" for="cat{{.Id}}">{{.Name}} <small class="text-black-50">156</small></label>
+	</div>
+	{{end}}
+
+
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan117">
+<label class="custom-control-label" for="osahan117">Adventure <small class="text-black-50">120</small></label>
+</div>
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan118">
+<label class="custom-control-label" for="osahan118">Animation <small class="text-black-50">130</small></label>
+</div>
+<div class="mt-2"><a href="#" class="link">See all</a></div>
+</div>
+</div>
+</div>
+<div class="filters-card border-bottom p-3">
+<div class="filters-card-header" id="headingOne">
+<h6 class="mb-0">
+<a href="#" class="btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+Select Language <i class="fas fa-angle-down float-right"></i>
+</a>
+</h6>
+</div>
+<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+<div class="filters-card-body card-shop-filters">
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan1155">
+<label class="custom-control-label" for="osahan1155">Punjabi <small class="text-black-50">230</small>
+</label>
+</div>
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan1166">
+<label class="custom-control-label" for="osahan1166">English <small class="text-black-50">95</small>
+</label>
+</div>
+<div class="mt-2"><a href="#" class="link">See all</a></div>
+</div>
+</div>
+</div>
+<div class="filters-card border-bottom p-3">
+<div class="filters-card-header" id="headingOffer">
+<h6 class="mb-0">
+<a href="#" class="btn-link" data-toggle="collapse" data-target="#collapseOffer" aria-expanded="true" aria-controls="collapseOffer">
+Format <i class="fas fa-angle-down float-right"></i>
+</a>
+</h6>
+</div>
+<div id="collapseOffer" class="collapse" aria-labelledby="headingOffer" data-parent="#accordion">
+<div class="filters-card-body card-shop-filters">
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan1100">
+<label class="custom-control-label" for="osahan1100"> 2D </label>
+</div>
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan11111">
+<label class="custom-control-label" for="osahan11111"> 3D
+</label>
+</div>
+<div class="mt-2"><a href="#" class="link">See all</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="filters shadow rounded bg-dark mb-3 d-none d-sm-none d-md-block">
+<div class="filters-header border-bottom p-3">
+<h6 class="m-0">Filter By</h6>
+</div>
+<div class="filters-body">
+<div id="accordion">
+<div class="filters-card border-bottom p-3">
+<div class="filters-card-header" id="headingTwo">
+<h6 class="mb-0">
+<a href="#" class="btn-link text-white" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="true" aria-controls="collapsetwo">
+Genre
+<i class="fas fa-angle-down float-right"></i>
+</a>
+</h6>
+</div>
+<div id="collapsetwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+<div class="filters-card-body card-shop-filters">
+<form class="filters-search mb-3">
+<div class="form-group">
+<i class="fas fa-search"></i>
+<input type="text" class="form-control" placeholder="Start typing to search...">
+</div>
+</form>
+	{{$SiteConfig := .SiteConfig}}
+	{{range .Genre.Genres}}
+	<div class="custom-control custom-checkbox">
+		<input type="checkbox" class="custom-control-input" id="cat{{.Id}}">
+		<label class="custom-control-label" for="cat{{.Id}}">{{.Name}} <small class="text-black-50">156</small></label>
+	</div>
+	{{end}}
+<div class="mt-2"><a href="#" class="link">See all</a></div>
+ </div>
+</div>
+</div>
+<div class="filters-card border-bottom p-3">
+<div class="filters-card-header" id="headingOne">
+<h6 class="mb-0">
+<a href="#" class="btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+Select Language <i class="fas fa-angle-down float-right"></i>
+</a>
+</h6>
+</div>
+<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+<div class="filters-card-body card-shop-filters">
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan11z">
+<label class="custom-control-label" for="osahan11z"> Punjabi <small class="text-black-50">230</small>
+</label>
+</div>
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan11zz">
+<label class="custom-control-label" for="osahan11zz"> English <small class="text-black-50">95</small>
+</label>
+</div>
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan11zzz">
+<label class="custom-control-label" for="osahan11zzz"> Hindi <small class="text-black-50">35</small>
+</label>
+</div>
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan11x">
+<label class="custom-control-label" for="osahan11x">Telugu <small class="text-black-50">46</small>
+</label>
+</div>
+<div class="mt-2"><a href="#" class="link">See all</a></div>
+</div>
+</div>
+</div>
+<div class="filters-card border-bottom p-3">
+<div class="filters-card-header" id="headingOffer">
+<h6 class="mb-0">
+<a href="#" class="btn-link" data-toggle="collapse" data-target="#collapseOffer" aria-expanded="true" aria-controls="collapseOffer">
+Format <i class="fas fa-angle-down float-right"></i>
+</a>
+</h6>
+</div>
+<div id="collapseOffer" class="collapse" aria-labelledby="headingOffer" data-parent="#accordion">
+<div class="filters-card-body card-shop-filters">
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan11cc">
+<label class="custom-control-label" for="osahan11cc"> 3D </label>
+</div>
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan11c">
+<label class="custom-control-label" for="osahan11c"> 2D
+</label>
+ </div>
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="osahan11v">
+<label class="custom-control-label" for="osahan11v"> 5D
+</label>
+</div>
+<div class="mt-2"><a href="#" class="link">See all</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="d-none d-sm-none d-lg-block">
+<img class="img-fluid rounded mt-3" src="https://via.placeholder.com/255x397" title="#">
+</div>
+</div>
+<div class="col-xl-9 col-lg-8">
+	<div class="row list-bp">
+		{{if ne .getdata2 "person"}}
+			{{range .Upcoming.Results}}
+			<div class="col-xl-4 col-md-6 mb-4">
+				<div class="card m-card shadow border-0">
+					<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+						<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+								<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i> {{.Vote}}</h6>
+								<small>{{.VoteCount}}</small>
+							</div>
+							<img src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top" alt="{{.Title}}">
+						</div>
+						<div class="card-body p-1">
+							<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+							<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+						</div>
+					</a>
+				</div>
+			</div>
+			{{end}}
+		{{else}}
+			{{range .People.Results}}
+			<div class="col-xl-4 col-md-6 mb-4">
+			<div class="card p-card shadow border-0 text-center bg-dark text-white">
+			<a href="{{$SiteConfig.SiteUrl}}person/{{.Id}}/{{.Url}}">
+			<div class="people-item">
+			<div class="people-item-body p-4">
+				{{if eq .ProfilePath ""}}
+					<img src="{{$SiteConfig.SiteUrl}}/static/cdn/profile/default.jpg" class="card-img people-pic" alt="...">
+				{{else}}
+					<img src="https://www.themoviedb.org/t/p/w138_and_h175_face{{.ProfilePath}}" class="card-img people-pic" alt="...">
+				{{end}}
+			<h5 class="card-title mt-3">{{.Name}}</h5>
+			<p class="card-text">{{.Department}}</p>
+			<p class="card-text"><small><span class="text-muted font-weight-bold"><i class="fas fa-film fa-sm ml-1"></i> Acting</span> - <span class="text-link">Batman v Superman: Dawn (2016)</span></small></p>
+			</div>
+			</div>
+			</a>
+			</div>
+			</div>
+			{{end}}
+		{{end}}
+</div>
+		<!--<div class="text-center mt-4 mb-5 col-12">
+		<div class="spinner-border" role="status">
+		<span class="sr-only">Loading...</span>
+		</div>
+		</div>
+		-->
+</div>
+</div>
+</div>
+	{{template "footer".}}
+	{{template "deep".}}
+{{end}}
+
+
+
+{{define "filmss"}}
+	{{template "head".}}
+	{{template "header".}}
+
+	<!-- head -->
+	<section class="section section--head section--head-fixed">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-xl-6">
+					<h1 class="section__title section__title--head">Catalog</h1>
+				</div>
+
+				<div class="col-12 col-xl-6">
+					<ul class="breadcrumb">
+						<li class="breadcrumb__item"><a href="index.html">Home</a></li>
+						<li class="breadcrumb__item breadcrumb__item--active">Catalog</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end head -->
+
+	<!-- categories -->
+	<section class="section section--pb0">
+		<div class="container">
+			<div class="row row--grid">
+			{{$SiteConfig := .SiteConfig}}
+			{{range .Genre.Genres}}
+				<div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+					<a href="{{$SiteConfig.SiteUrl}}}category/" class="category">
+						<div class="category__cover">
+							<img src="{{$SiteConfig.SiteUrl}}static/cdn/category/{{.Id}}.jpg" alt="">
+						</div>
+						<h3 class="category__title">{{.Name}} {{.Id}}</h3>
+						<span class="category__value">322</span>
+					</a>
+				</div>
+{{end}}
+			</div>
+		</div>
+	</section>
+	<!-- endcategories -->
+
+	<!-- popular -->
+	<section class="section section--pb0">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<h2 class="section__title"><a href="{{$SiteConfig.SiteUrl}}popular">Popüler</a></h2>
+				</div>
+
+				<div class="col-12">
+					<div class="section__carousel-wrap">
+						<div class="section__carousel owl-carousel" id="popular">
+							{{range .Popular.Results}}
+							<div class="card">
+								<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}" class="card__cover" title="{{.Title}}">
+									<img src="https://image.tmdb.org/t/p/w220_and_h330_face{{.Image}}" alt="{{.Title}}">
+									<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 1C16.5228 1 21 5.47716 21 11C21 16.5228 16.5228 21 11 21C5.47716 21 1 16.5228 1 11C1 5.47716 5.47716 1 11 1Z" stroke-linecap="round" stroke-linejoin="round"/><path fill-rule="evenodd" clip-rule="evenodd" d="M14.0501 11.4669C13.3211 12.2529 11.3371 13.5829 10.3221 14.0099C10.1601 14.0779 9.74711 14.2219 9.65811 14.2239C9.46911 14.2299 9.28711 14.1239 9.19911 13.9539C9.16511 13.8879 9.06511 13.4569 9.03311 13.2649C8.93811 12.6809 8.88911 11.7739 8.89011 10.8619C8.88911 9.90489 8.94211 8.95489 9.04811 8.37689C9.07611 8.22089 9.15811 7.86189 9.18211 7.80389C9.22711 7.69589 9.30911 7.61089 9.40811 7.55789C9.48411 7.51689 9.57111 7.49489 9.65811 7.49789C9.74711 7.49989 10.1091 7.62689 10.2331 7.67589C11.2111 8.05589 13.2801 9.43389 14.0401 10.2439C14.1081 10.3169 14.2951 10.5129 14.3261 10.5529C14.3971 10.6429 14.4321 10.7519 14.4321 10.8619C14.4321 10.9639 14.4011 11.0679 14.3371 11.1549C14.3041 11.1999 14.1131 11.3999 14.0501 11.4669Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+								</a>
+								<button class="card__add" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2H8A3,3,0,0,0,5,5V21a1,1,0,0,0,.5.87,1,1,0,0,0,1,0L12,18.69l5.5,3.18A1,1,0,0,0,18,22a1,1,0,0,0,.5-.13A1,1,0,0,0,19,21V5A3,3,0,0,0,16,2Zm1,17.27-4.5-2.6a1,1,0,0,0-1,0L7,19.27V5A1,1,0,0,1,8,4h8a1,1,0,0,1,1,1Z"/></svg></button>
+								<span class="card__rating"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> {{.Vote}}</span>
+								<h3 class="card__title"><a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}" title="{{.Title}}">{{.Title}}</a></h3>
+								<ul class="card__list">
+									<li>Free</li>
+									<li>Action</li>
+									<li>2019</li>
+								</ul>
+							</div>
+							{{end}}
+						</div>
+
+						<button class="section__nav section__nav--cards section__nav--prev" data-nav="#popular" type="button"><svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.25 7.72559L16.25 7.72559" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.2998 1.70124L1.2498 7.72524L7.2998 13.7502" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+						<button class="section__nav section__nav--cards section__nav--next" data-nav="#popular" type="button"><svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.75 7.72559L0.75 7.72559" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.7002 1.70124L15.7502 7.72524L9.7002 13.7502" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end popular -->
+
+	<!-- trends -->
+	<section class="section section--pb0 section--gradient">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<h2 class="section__title"><a href="{{$SiteConfig.SiteUrl}}latest">Bugünün Trendleri</a></h2>
+				</div>
+
+				<div class="col-12">
+					<div class="section__carousel-wrap">
+						<div class="section__carousel owl-carousel" id="latest">
+							{{range .Latest.Results}}
+							<div class="card">
+								<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}" class="card__cover" title="{{.Title}}">
+									<img src="https://image.tmdb.org/t/p/w220_and_h330_face{{.Image}}" alt="{{.Title}}">
+									<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 1C16.5228 1 21 5.47716 21 11C21 16.5228 16.5228 21 11 21C5.47716 21 1 16.5228 1 11C1 5.47716 5.47716 1 11 1Z" stroke-linecap="round" stroke-linejoin="round"/><path fill-rule="evenodd" clip-rule="evenodd" d="M14.0501 11.4669C13.3211 12.2529 11.3371 13.5829 10.3221 14.0099C10.1601 14.0779 9.74711 14.2219 9.65811 14.2239C9.46911 14.2299 9.28711 14.1239 9.19911 13.9539C9.16511 13.8879 9.06511 13.4569 9.03311 13.2649C8.93811 12.6809 8.88911 11.7739 8.89011 10.8619C8.88911 9.90489 8.94211 8.95489 9.04811 8.37689C9.07611 8.22089 9.15811 7.86189 9.18211 7.80389C9.22711 7.69589 9.30911 7.61089 9.40811 7.55789C9.48411 7.51689 9.57111 7.49489 9.65811 7.49789C9.74711 7.49989 10.1091 7.62689 10.2331 7.67589C11.2111 8.05589 13.2801 9.43389 14.0401 10.2439C14.1081 10.3169 14.2951 10.5129 14.3261 10.5529C14.3971 10.6429 14.4321 10.7519 14.4321 10.8619C14.4321 10.9639 14.4011 11.0679 14.3371 11.1549C14.3041 11.1999 14.1131 11.3999 14.0501 11.4669Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+								</a>
+								<button class="card__add" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2H8A3,3,0,0,0,5,5V21a1,1,0,0,0,.5.87,1,1,0,0,0,1,0L12,18.69l5.5,3.18A1,1,0,0,0,18,22a1,1,0,0,0,.5-.13A1,1,0,0,0,19,21V5A3,3,0,0,0,16,2Zm1,17.27-4.5-2.6a1,1,0,0,0-1,0L7,19.27V5A1,1,0,0,1,8,4h8a1,1,0,0,1,1,1Z"/></svg></button>
+								<span class="card__rating"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> {{.Vote}}</span>
+								<h3 class="card__title"><a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}" title="{{.Title}}">{{.Title}}</a></h3>
+								<ul class="card__list">
+									<li>Free</li>
+									<li>Action</li>
+									<li>2019</li>
+								</ul>
+							</div>
+							{{end}}
+						</div>
+
+						<button class="section__nav section__nav--cards section__nav--prev" data-nav="#latest" type="button"><svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.25 7.72559L16.25 7.72559" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.2998 1.70124L1.2498 7.72524L7.2998 13.7502" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+						<button class="section__nav section__nav--cards section__nav--next" data-nav="#latest" type="button"><svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.75 7.72559L0.75 7.72559" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.7002 1.70124L15.7502 7.72524L9.7002 13.7502" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end trends -->
+
+
+	<!-- upcoming -->
+	<section class="section section--pb0 section--gradient">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<h2 class="section__title"><a href="{{$SiteConfig.SiteUrl}}upcoming">Yaklaşan Filmler</a></h2>
+				</div>
+
+				<div class="col-12">
+					<div class="section__carousel-wrap">
+						<div class="section__carousel owl-carousel" id="upcoming">
+							{{range .Upcoming.Results}}
+							<div class="card">
+								<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}" class="card__cover" title="{{.Title}}">
+									<img src="https://image.tmdb.org/t/p/w220_and_h330_face{{.Image}}" alt="{{.Title}}">
+									<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 1C16.5228 1 21 5.47716 21 11C21 16.5228 16.5228 21 11 21C5.47716 21 1 16.5228 1 11C1 5.47716 5.47716 1 11 1Z" stroke-linecap="round" stroke-linejoin="round"/><path fill-rule="evenodd" clip-rule="evenodd" d="M14.0501 11.4669C13.3211 12.2529 11.3371 13.5829 10.3221 14.0099C10.1601 14.0779 9.74711 14.2219 9.65811 14.2239C9.46911 14.2299 9.28711 14.1239 9.19911 13.9539C9.16511 13.8879 9.06511 13.4569 9.03311 13.2649C8.93811 12.6809 8.88911 11.7739 8.89011 10.8619C8.88911 9.90489 8.94211 8.95489 9.04811 8.37689C9.07611 8.22089 9.15811 7.86189 9.18211 7.80389C9.22711 7.69589 9.30911 7.61089 9.40811 7.55789C9.48411 7.51689 9.57111 7.49489 9.65811 7.49789C9.74711 7.49989 10.1091 7.62689 10.2331 7.67589C11.2111 8.05589 13.2801 9.43389 14.0401 10.2439C14.1081 10.3169 14.2951 10.5129 14.3261 10.5529C14.3971 10.6429 14.4321 10.7519 14.4321 10.8619C14.4321 10.9639 14.4011 11.0679 14.3371 11.1549C14.3041 11.1999 14.1131 11.3999 14.0501 11.4669Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+								</a>
+								<button class="card__add" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2H8A3,3,0,0,0,5,5V21a1,1,0,0,0,.5.87,1,1,0,0,0,1,0L12,18.69l5.5,3.18A1,1,0,0,0,18,22a1,1,0,0,0,.5-.13A1,1,0,0,0,19,21V5A3,3,0,0,0,16,2Zm1,17.27-4.5-2.6a1,1,0,0,0-1,0L7,19.27V5A1,1,0,0,1,8,4h8a1,1,0,0,1,1,1Z"/></svg></button>
+								<span class="card__rating"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> {{.Vote}}</span>
+								<h3 class="card__title"><a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}" title="{{.Title}}">{{.Title}}</a></h3>
+								<ul class="card__list">
+									<li>Free</li>
+									<li>Action</li>
+									<li>2019</li>
+								</ul>
+							</div>
+							{{end}}
+						</div>
+
+						<button class="section__nav section__nav--cards section__nav--prev" data-nav="#upcoming" type="button"><svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.25 7.72559L16.25 7.72559" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.2998 1.70124L1.2498 7.72524L7.2998 13.7502" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+						<button class="section__nav section__nav--cards section__nav--next" data-nav="#upcoming" type="button"><svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.75 7.72559L0.75 7.72559" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.7002 1.70124L15.7502 7.72524L9.7002 13.7502" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end upcoming -->
+
+	{{template "plan".}}
+	{{template "footer".}}
+	{{template "deep".}}
+{{end}}

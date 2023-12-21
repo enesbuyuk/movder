@@ -1,0 +1,596 @@
+{{define "profile"}}
+	{{template "head".}}
+	{{template "header".}}
+		{{$General := .}}
+		{{$kullanici := .kullanici}}
+		{{$SiteConfig := .SiteConfig}}
+<div class="container pt-5 mb-4 pb-2 list-bp">
+<div class="row">
+<div class="col-xl-3 col-lg-3">
+<div class="bg-gradient-primary inner-profile text-white py-5 px-4 widget shadow rounded mb-4 text-center">
+<img class="img-profile rounded-circle" src="{{.SiteConfig.SiteUrl}}static/cdn/profile/{{.kullanici.Photo}}">
+<h5 class="mb-1 mt-3">{{.kullanici.Nick}}</h5>
+<p><span class="text-muted text-gray-500">{{.kullanici.Name}}</span></p>
+<p><span class="text-muted text-gray-500"><i class="fas fa-map-marker-alt fa-fw fa-sm mr-1"></i> {{.kullanici.Location}}</span></p>
+<br>
+<p style="font-size: 15px;"><b>{{len .Followers}}</b> Followers · <b>{{len .Followings}}</b> Following<p/> <br>
+{{if eq .MeProfile true}}
+<a href="{{.SiteConfig.SiteUrl}}signout"class="btn btn-danger"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 ri"></i> Sign Out</a>
+{{else}}
+	{{if eq .FollowState false}}
+<a href="javascript:follow('{{.kullanici.Id}}')" class="btn btn-danger" id="follow{{.kullanici.Id}}"><i class="fas fa-user-plus fa-sm  ml-1"></i> Follow</a>
+	{{else}}
+<a href="javascript:follow('{{.kullanici.Id}}')" class="btn btn-dark" id="follow{{.kullanici.Id}}"><i class="fas fa-check fa-sm  ml-1"></i> Unfollow</a>
+	{{end}}
+{{end}}
+</div>
+<div class="d-none d-sm-none d-lg-block">
+<img class="img-fluid rounded" data-src="https://via.placeholder.com/255x380" title="#">
+</div>
+</div>
+
+<div class="col-xl-9 col-lg-9">
+
+<div class="bg-dark p-3 widget shadow rounded mb-4">
+
+<div class="nav nav-pills lavalamp" id="sidebar-1" role="tablist">
+<a class="nav-link active" data-toggle="tab" href="#sidebar-1-1" role="tab" aria-controls="sidebar-1" aria-selected="true"><i class="fas fa-user-circle fa-sm fa-fw mr-2 ri"></i> Profile</a>
+<a class="nav-link" data-toggle="tab" href="#films" onclick="window.location.href = '/@{{.kullanici.Link}}/films';" role="tab" aria-controls="films" aria-selected="false"><i class="far fa-bookmark fa-sm fa-fw mr-2 ri"></i> Films</a>
+
+<a class="nav-link" data-toggle="tab" href="#diary" onclick="window.location.href = '/@{{.kullanici.Link}}/diary';" role="tab" aria-controls="diary" aria-selected="false"><i class="fa-regular fa-calendar-days fa-sm fa-fw mr-2 ri"></i> Diary</a>
+
+<a class="nav-link" data-toggle="tab" href="#favorite" onclick="window.location.href = '/@{{.kullanici.Link}}/favorite';" role="tab" aria-controls="favorite" aria-selected="false"><i class="fas fa-heart fa-sm fa-fw mr-2 ri"></i> Favorites</a>
+
+<a class="nav-link" data-toggle="tab" href="#watchlist" onclick="window.location.href = '/@{{.kullanici.Link}}/watchlist';" role="tab" aria-controls="watchlist" aria-selected="false"><i class="far fa-clock fa-sm fa-fw mr-2 ri"></i> {{.Language.Watchlist}}</a>
+
+<a class="nav-link" data-toggle="tab" href="#lists" onclick="window.location.href = '/@{{.kullanici.Link}}/lists';" role="tab" aria-controls="lists" aria-selected="false"><i class="fas fa-list-alt fa-sm fa-fw mr-2 ri"></i> Lists</a>
+{{if eq .MeProfile true}}
+<a class="nav-link" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false"><i class="fas fa-cog fa-sm fa-fw mr-2 ri"></i> Settings</a>
+{{end}}
+</div>
+</div>
+
+<div class="bg-dark p-3 widget shadow rounded mb-4">
+<div class="tab-content" id="myTabContent">
+
+<div class="tab-pane fade show active" id="sidebar-1-1" role="tabpanel" aria-labelledby="sidebar-1-1">
+	<div class="d-sm-flex align-items-center justify-content-between mb-3">
+	<h1 class="h5 mb-0 text-white-900">Profile</h1>
+	</div>
+	<p width="50%">{{.kullanici.About}}</p>
+	<br>
+
+	<div class="profile_statistics">
+			<i class="fa-regular fa-bookmark"></i>{{.LenWatchedlist}}
+			<i class="fa-regular fa-calendar-days" style="margin-left: 20px"></i>{{.LenDiary}}
+			<i class="fa-regular fa-heart" style="margin-left: 20px"></i>{{.LenFavorite}}
+			<i class="fa-regular fa-clock" style="margin-left: 20px"></i>{{.LenWatchlist}}
+			<i class="fa-regular fa-comment" style="margin-left: 20px"></i>{{len .Comments}}
+	</div>
+{{if eq .MeProfile false}}
+        <div class="progress" data-value='{{.SimilarPercent}}'>
+          	<span class="progress-left"><span class="progress-bar border-primary"></span></span>
+          	<span class="progress-right"><span class="progress-bar border-primary"></span></span>
+          	<div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+            <div class="h3 font-weight-bold">{{.SimilarPercent}}<sup class="small">%</sup></div>
+          </div>
+      	</div>
+      	<span style="float:right;top:10px;margin-right: 10px;">Matching movies</span>
+<script>
+$(function() {
+  $(".progress").each(function() {
+    var value = $(this).attr('data-value');
+    var left = $(this).find('.progress-left .progress-bar');
+    var right = $(this).find('.progress-right .progress-bar');
+
+    if (value > 0) {
+      if (value <= 50) {
+        right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
+      } else {
+        right.css('transform', 'rotate(180deg)')
+        left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
+      }
+    }
+
+  })
+
+  function percentageToDegrees(percentage) {return percentage / 100 * 360}
+});
+</script>
+<br><br>
+<button style="float:right;" type="button" class="btn btn-dark"><i class="fa-solid fa-ban"></i>Block</button>
+<button style="float:right;margin-right:15px" type="button" class="btn btn-primary" onclick="window.location.href='/chat/{{.kullanici.Link}}';"><i class="fa-regular fa-envelope"></i>Message</button>
+{{end}}
+
+<ul class="nav nav-tabs bg-dark mt-3" id="myTab" role="tablist">
+<li class="nav-item ">
+<a class="nav-link text-white active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="false">Summary</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link text-white" id="followers-tab" data-toggle="tab" href="#followers" role="tab" aria-controls="followers" aria-selected="false">Followers
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link text-white" id="following-tab" data-toggle="tab" href="#following" role="tab" aria-controls="following" aria-selected="false">Following
+</a>
+</li>
+
+<li class="nav-item ">
+<a class="nav-link text-white" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">Comments</a>
+</li>
+</ul>
+<div class="tab-content" id="myTabContent">
+
+
+
+<div class="tab-pane fade show active" id="summary" role="tabpanel" aria-labelledby="summary-tab">
+	 <h6 class="h5 mb-0 float-left">Statics</h6>
+	<br><br><br>
+</div>
+
+<div class="tab-pane fade" id="followers" role="tabpanel" aria-labelledby="followers-tab">
+<div class="row">
+<div class="col-xl-4 col-lg-4">
+<h5 class="h6 mt-0 mb-3 font-weight-bold">FOLLOWERS</h5>
+	{{range .Followers}}
+	<div class="artist-list mb-3">
+	<a class="d-flex align-items-center" href="{{$SiteConfig.SiteUrl}}@{{.Link}}">
+	<div class="dropdown-list-image mr-3">
+	<img class="rounded-circle lazy" data-src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{.Photo}}" alt="{{.Nick}}">
+	<div class="status-indicator bg-success"></div>
+	</div>
+	<div class="font-weight-bold">
+		<div class="text-truncate">{{.Nick}}</div>
+		<div class="small text-gray-600">{{.Name}}</div>
+	</div>
+	</a>
+	</div>
+	{{end}}
+</div>
+</div>
+</div>
+
+<div class="tab-pane fade" id="following" role="tabpanel" aria-labelledby="following-tab">
+<div class="row">
+<div class="col-xl-4 col-lg-4">
+<h5 class="h6 mt-0 mb-3 font-weight-bold">FOLLOWING</h5>
+	{{range .Followings}}
+	<div class="artist-list mb-3">
+	<a class="d-flex align-items-center" href="{{$SiteConfig.SiteUrl}}@{{.Link}}">
+	<div class="dropdown-list-image mr-3">
+	<img class="rounded-circle lazy" data-src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{.Photo}}" alt="{{.Nick}}">
+	<div class="status-indicator bg-success"></div>
+	</div>
+	<div class="font-weight-bold">
+		<div class="text-truncate">{{.Nick}}</div>
+		<div class="small text-gray-600">{{.Name}}</div>
+	</div>
+	</a>
+	</div>
+	{{end}}
+</div>
+</div>
+</div>
+
+<div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+<div class="card-body p-0 reviews-card">
+	{{range .Comments}}
+	<div class="media mb-4">
+		<img class="d-flex mr-3 rounded-circle lazy" data-src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{$kullanici.Photo}}" alt="{{$kullanici.Nick}}">
+	<div class="media-body">
+		<div class="mt-0 mb-1">
+			<span class="h6 mr-2 font-weight-bold">{{$kullanici.Nick}}</span>
+			<span><i class="fa fa-film"></i><a href="{{$SiteConfig.SiteUrl}}film/{{.Film}}/{{.Link}}#{{.Id}}">{{.Title}}</a></span>&nbsp;&nbsp;&nbsp;
+			<span><i class="fa fa-calendar"></i>{{.Date}}</span>
+			<div class="stars-rating float-right">
+				{{if eq .Rate 0}}
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i> 
+				{{else if eq .Rate 1}}
+					<i class="fa fa-star active"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i> 
+				{{else if eq .Rate 2}}
+					<i class="fa fa-star active"></i>
+					<i class="fa fa-star active"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i> 
+				{{else if eq .Rate 3}}
+					<i class="fa fa-star active"></i>
+					<i class="fa fa-star active"></i>
+					<i class="fa fa-star active"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i> 
+				{{else if eq .Rate 4}}
+					<i class="fa fa-star active"></i>
+					<i class="fa fa-star active"></i>
+					<i class="fa fa-star active"></i>
+					<i class="fa fa-star active"></i>
+					<i class="fa fa-star"></i> 
+				{{else if eq .Rate 5}}
+					<i class="fa fa-star active"></i>
+					<i class="fa fa-star active"></i>
+					<i class="fa fa-star active"></i>
+					<i class="fa fa-star active"></i>
+					<i class="fa fa-star active"></i>
+				{{end}}
+
+				<span class="rounded bg-warning text-dark pl-1 pr-1">{{.Rate}}/5</span>
+			</div>
+		</div>
+		<p>{{.Content}}</p>
+	</div>
+	</div>
+	{{end}}
+</div>
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+<div class="tab-pane fade" id="films" role="tabpanel" aria-labelledby="films">
+	<div class="d-sm-flex align-items-center justify-content-between mb-3 overflow-hidden">
+	 <h1 class="h5 mb-0 float-left">Films</h1>
+	<a href="{{.SiteConfig.SiteUrl}}@{{.kullanici.Link}}" class="float-right d-sm-inline-block text-xs">Showing {{len .Watched}} of {{len .Watched}} items</a>
+	</div>
+	<div class="row">
+		{{range .Watched}}
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card m-card shadow border-0">
+			<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+				<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+					<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+						<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i> {{.Vote}}</h6>
+						<small class="text-muted">{{.Vote}}</small>
+					</div>
+				<img data-src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top lazy" alt="{{.Title}}">
+				</div>
+				<div class="card-body p-1">
+					<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+					<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small></p>
+					{{if eq $General.MeProfile true}}
+					<div class="mt-3"><button class="btn btn-danger btn-block btn-sm" id="btnwatchedlist{{.Id}}" onclick="watchedlist('{{.Id}}','{{.FilmType}}');"><i class="fas fa-trash"></i> Remove</button></div>
+					{{end}}
+				</div>
+			</a>
+			</div>
+		</div>
+		{{end}}
+	</div>
+
+	<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center mb-0 pb-0">
+	<li class="page-item disabled">
+	<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+	</li>
+	<li class="page-item"><a class="page-link" href="#">1</a></li>
+	<li class="page-item"><a class="page-link" href="#">2</a></li>
+	<li class="page-item"><a class="page-link" href="#">3</a></li>
+	<li class="page-item">
+	<a class="page-link" href="#">Next</a>
+	</li>
+	</ul>
+	</nav>
+</div>
+
+<div class="tab-pane fade" id="watchlist" role="tabpanel" aria-labelledby="watchlist">
+	<div class="d-sm-flex align-items-center justify-content-between mb-3 overflow-hidden">
+	 <h1 class="h5 mb-0 float-left">Watchlist</h1>
+	<a href="{{.SiteConfig.SiteUrl}}@{{.kullanici.Link}}" class="float-right d-sm-inline-block text-xs">Showing {{len .Watchlist}} of {{len .Watchlist}} items</a>
+	</div>
+	<div class="row">
+		{{range .Watchlist}}
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card m-card shadow border-0">
+			<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+				<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+					<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+						<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i> {{.Vote}}</h6>
+						<small class="text-muted">{{.Vote}}</small>
+					</div>
+				<img data-src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top lazy" alt="{{.Title}}">
+				</div>
+				<div class="card-body p-1">
+					<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+					<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small></p>
+					{{if eq $General.MeProfile true}}
+					<div class="mt-3"><button class="btn btn-danger btn-block btn-sm" id="btnwatchlist{{.Id}}" onclick="watchlist('{{.Id}}','{{.FilmType}}');"><i class="fas fa-trash"></i> Remove</button></div>
+					{{end}}
+				</div>
+			</a>
+			</div>
+		</div>
+		{{end}}
+	</div>
+
+	<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center mb-0 pb-0">
+	<li class="page-item disabled">
+	<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+	</li>
+	<li class="page-item"><a class="page-link" href="#">1</a></li>
+	<li class="page-item"><a class="page-link" href="#">2</a></li>
+	<li class="page-item"><a class="page-link" href="#">3</a></li>
+	<li class="page-item">
+	<a class="page-link" href="#">Next</a>
+	</li>
+	</ul>
+	</nav>
+</div>
+
+<div class="tab-pane fade" id="diary" role="tabpanel" aria-labelledby="diary">
+	<div class="d-sm-flex align-items-center justify-content-between mb-3 overflow-hidden">
+	 <h1 class="h5 mb-0 float-left">Diary</h1>
+	<a href="{{.SiteConfig.SiteUrl}}@{{.kullanici.Link}}" class="float-right d-sm-inline-block text-xs">Showing {{len .Diary}} of {{len .Diary}} items</a>
+	</div>
+	<div class="row">
+		{{range .Diary}}
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card m-card shadow border-0">
+			<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+				<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+					<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+						<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i> {{.Vote}}</h6>
+						<small class="text-muted">{{.Vote}}</small>
+					</div>
+				<img data-src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top lazy" alt="{{.Title}}">
+				</div>
+				<div class="card-body p-1">
+					<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+					<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small></p>
+					{{if eq $General.MeProfile true}}
+					<div class="mt-3"><button class="btn btn-danger btn-block btn-sm" id="btndiary{{.Id}}" onclick="watchedlist('{{.Id}}','{{.FilmType}}','diary');"><i class="fas fa-trash"></i> Remove</button></div>
+					{{end}}
+				</div>
+			</a>
+			</div>
+		</div>
+		{{end}}
+	</div>
+
+	<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center mb-0 pb-0">
+	<li class="page-item disabled">
+	<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+	</li>
+	<li class="page-item"><a class="page-link" href="#">1</a></li>
+	<li class="page-item"><a class="page-link" href="#">2</a></li>
+	<li class="page-item"><a class="page-link" href="#">3</a></li>
+	<li class="page-item">
+	<a class="page-link" href="#">Next</a>
+	</li>
+	</ul>
+	</nav>
+</div>
+
+<div class="tab-pane fade" id="favorite" role="tabpanel" aria-labelledby="favorite">
+	<div class="d-sm-flex align-items-center justify-content-between mb-3 overflow-hidden">
+	 <h1 class="h5 mb-0 float-left">Favorites</h1>
+	<a href="{{.SiteConfig.SiteUrl}}@{{.kullanici.Link}}" class="float-right d-sm-inline-block text-xs">Showing {{len .Favorite}} of {{len .Favorite}} items</a>
+	</div>
+	<div class="row">
+		{{range .Favorite}}
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card m-card shadow border-0">
+			<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+				<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','{{.FilmType}}');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+					<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+						<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i> {{.Vote}}</h6>
+						<small class="text-muted">{{.Vote}}</small>
+					</div>
+				<img data-src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top lazy" alt="{{.Title}}">
+				</div>
+				<div class="card-body p-1">
+					<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+					<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small></p>
+					{{if eq $General.MeProfile true}}
+					<div class="mt-3"><button class="btn btn-danger btn-block btn-sm" id="btnfavorite{{.Id}}" onclick="favorite('{{.Id}}','{{.FilmType}}');"><i class="fas fa-trash"></i> Remove</button></div>
+					{{end}}
+				</div>
+			</a>
+			</div>
+		</div>
+		{{end}}
+	</div>
+
+	<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center mb-0 pb-0">
+	<li class="page-item disabled">
+	<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+	</li>
+	<li class="page-item"><a class="page-link" href="#">1</a></li>
+	<li class="page-item"><a class="page-link" href="#">2</a></li>
+	<li class="page-item"><a class="page-link" href="#">3</a></li>
+	<li class="page-item">
+	<a class="page-link" href="#">Next</a>
+	</li>
+	</ul>
+	</nav>
+</div>
+
+<div class="tab-pane fade" id="lists" role="tabpanel" aria-labelledby="lists">
+
+<div class="d-sm-flex align-items-center justify-content-between mb-3 overflow-hidden">
+<h1 class="h5 mb-0 float-left">Your Lists</h1>
+{{if eq .MeProfile true}}<a href="javascript:createlist();" class="float-right d-sm-inline-block btn btn-sm btn-primary text-xs">New List</a>{{end}}
+</div>
+
+<div class="row">
+			{{range .LatestLists}}
+			<div class="col-xl-4 col-md-6 mb-4">
+			<div class="card offer-card shadow border-0 bg-opacity">
+			<a href="{{$SiteConfig.SiteUrl}}@{{.OwnerUrl}}/list/{{.Url}}">
+			<div class="m-card-cover">
+				<img data-src="{{$SiteConfig.SiteUrl}}static/cdn/list/{{.Image}}" class="card-img-top lazy" alt="{{.Title}}" height="250px" >
+			</div>
+			<div class="card-body p-1">
+				<a href="{{$SiteConfig.SiteUrl}}@{{.OwnerUrl}}"><img data-src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{.OwnerImage}}" class="rounded-circle lazy" alt="{{.OwnerNick}}"></a>
+			<p class="card-text mt-3 mb-3 text-white h5"><a href="{{$SiteConfig.SiteUrl}}@{{.OwnerUrl}}/list/{{.Url}}">{{.Title}}</a></p>
+			<p class="card-text"><small class="text-muted"><i class="fas fa-heart"></i> <span class="text-gray-400">{{.Favorite}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+				<i class="fas fa-film"></i> <span class="text-gray-400">{{.Count}}</span></small></p>
+			<p class="card-text"><small class="text-muted"><i class="fas fa-calendar"></i> <span class="text-gray-400">{{.Date}}</span></small></p>
+			</div>
+			</a>
+			</div>
+			</div>
+			{{end}}
+</div>
+<!--
+<nav aria-label="Page navigation example">
+<ul class="pagination justify-content-center mb-0 pb-0">
+<li class="page-item disabled">
+<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+</li>
+<li class="page-item"><a class="page-link" href="#">1</a></li>
+<li class="page-item"><a class="page-link" href="#">2</a></li>
+<li class="page-item"><a class="page-link" href="#">3</a></li>
+<li class="page-item">
+<a class="page-link" href="#">Next</a>
+</li>
+</ul>
+</nav>-->
+</div> 
+
+<div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings">
+
+<div class="d-sm-flex align-items-center justify-content-between mb-3">
+<h1 class="h5 mb-0">Account Settings</h1>
+</div>
+	<div class="row gutter-1">
+	<form id="ChangeSettings" method="POST" action="/backend/settings"> 
+		<div class="col-md-6">
+		<div class="form-group">
+		<label for="name">Your Name</label>
+		<input id="name" type="text" class="form-control" placeholder="Your name" value={{.Session.Name}}>
+		</div>
+		</div>
+		<div class="col-md-6">
+		<div class="form-group">
+		<label for="telephone">Telephone</label>
+		<input id="telephone" type="text" class="form-control" placeholder="Telephone number" value="{{.Session.Phone}}">
+		</div>
+		</div>
+		<div class="col-md-6">
+		<div class="form-group">
+		<label for="email">Email</label>
+		<input id="email" type="mail" class="form-control" placeholder="Email" value="{{.Session.Mail}}" >
+		</div>
+		</div>
+		<div class="col-12">
+		<div class="form-group"><br>
+		<label for="bio">Your Biography</label>
+		<textarea rows="3" cols="100" class="form-control" name="bio" id="bio" placeholder="Biography">{{.Session.About}}</textarea>
+		</div>
+		</div>
+
+	</div>
+	<div class="row">
+	<div class="col">
+	<button type="submit" class="btn btn-primary">Save Changes</a>
+	</div>
+	</div>
+	</form>
+<br><br>
+
+	<form id="ChangePassword" method="POST" action="/backend/changepassword"> 
+		<div class="row gutter-1">
+		<div class="col-12">
+		<div class="form-group"><br>
+		<label for="oldpassword">Current Password</label>
+		<input id="oldpassword" type="password" class="form-control" placeholder="Your current password">
+		</div>
+		</div>
+		<div class="col-md-6">
+		<div class="form-group">
+		<label for="newpassword1">New Password</label>
+		<input id="newpassword1" type="password" class="form-control" placeholder="Your new password">
+		</div>
+		</div>
+		<div class="col-md-6">
+		<div class="form-group">
+		<label for="newpassword2">Retype New Password</label>
+		<input id="newpassword2" type="password" class="form-control" placeholder="Your new password">
+		</div>
+		</div>
+		</div>
+
+		<div class="row">
+		<div class="col">
+		<button type="submit" class="btn btn-primary">Change Password</a>
+		</div>
+		</div>
+	</form>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+	{{template "footer".}}
+	{{template "deep".}}
+{{end}}

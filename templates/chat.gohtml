@@ -1,0 +1,238 @@
+{{define "chat"}}
+	{{template "head".}}
+	{{template "header".}}
+	{{$SiteConfig := .SiteConfig}}
+	{{$Session := .Session}}
+	{{$ChosedBox := .ChosedBox}}
+	<link rel="stylesheet" type="text/css" href="{{.SiteConfig.SiteUrl}}static/movderheme/chat.css" rel="stylesheet">
+
+	<body>
+		<div class="container-fluid h-100 mt-5">
+			<div class="row justify-content-center h-100">
+				<div class="col-md-4 col-xl-3 chat"><div class="card contacts_card">
+					<div class="card-header">
+						<div class="input-group">
+							<input type="text" placeholder="{{.Language.Search}}..." name="" class="form-control search">
+							<div class="input-group-prepend">
+								<span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="card-body contacts_body">
+						<ui class="contacts">
+							<!--//class active-->
+						{{range .Boxes}}
+						<li><a href="{{$SiteConfig.SiteUrl}}chat/{{.Link}}" title="{{.Nick}}">
+							<div class="d-flex bd-highlight">
+								<div class="img_cont">
+									<img src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{.Photo}}" class="rounded-circle user_img">
+									{{if ne .Online "online"}}
+										<span class="online_icon offline"></span>
+									{{else}}
+										<span class="online_icon online"></span>
+									{{end}}
+								</div>
+								<div class="user_info">
+									<span>{{.Nick}}</span>
+									<p>{{.Online}}</p>
+								</div>
+							</div></a>
+						</li>
+						{{end}}
+						</ui>
+					</div>
+					<div class="card-footer"></div>
+				</div></div>
+				<div class="col-md-8 col-xl-6 chat">
+					{{if eq .ChosedBox.Target.Nick ""}}
+					<div class="card">
+						<div class="card-header msg_head"><br><br/><br></div>
+						<div class="card-body msg_card_body"><center><i class="fa-regular fa-comment-dots" style="font-size: 100px;color:#fff"></i><br><br><h3>{{.Language.StartMessagingNow}}</h3></center></div>
+					</div>
+					{{else}}
+
+					<script type="text/javascript">
+						$(document).ready(function() {$('#ChatBox').stop ().animate ({scrollTop: $('#ChatBox')[0].scrollHeight});
+ var map = {
+   "<3": "\u2764\uFE0F",
+   "</3": "\uD83D\uDC94",
+   ":D": "\uD83D\uDE00",
+   ":)": "\uD83D\uDE03",
+   ";)": "\uD83D\uDE09",
+   ":(": "\uD83D\uDE12",
+   ":p": "\uD83D\uDE1B",
+   ";p": "\uD83D\uDE1C",
+   ":'(": "\uD83D\uDE22"
+ };
+
+ function escapeSpecialChars(regex) {
+   return regex.replace(/([()[{*+.$^\\|?])/g, '\\$1');
+ }
+
+ document.getElementById('content').oninput = function() {
+   for (var i in map) {
+     var regex = new RegExp(escapeSpecialChars(i), 'gim');
+     this.value = this.value = this.value.replace(regex, map[i]);
+   }
+ };
+
+		});			        var app = {}
+					        app.ws = undefined
+					        app.container = undefined
+
+					        app.print = function (message) {
+					            var el = document.createElement("p")
+					            el.innerHTML = message
+					            app.container.append(el)
+					        }
+
+					        app.doSendMessage = function () {
+
+								var today= new Date();
+					            var messageRaw = document.querySelector('#content').value
+					            app.ws.send(JSON.stringify({
+					                Message: messageRaw,
+					                Owner: {{$Session.Id}},
+					                Date:today.getDate()+' '+monthNames[today.getMonth()]+' '+today.getFullYear(),
+					                Time: today.getHours()+":"+String(today.getMinutes()).padStart(2, '0')
+					            }));
+					            var message = `	
+											<div class="d-flex justify-content-end mb-4">
+														<div class="msg_cotainer_send">
+																	`+escape_html(messageRaw)+`
+															<span class="msg_time_send">`+today.getHours()+":"+String(today.getMinutes()).padStart(2, '0')+`&nbsp;-&nbsp;`+today.getDate()+' '+monthNames[today.getMonth()]+' '+today.getFullYear()+`</span>
+														</div>
+														<div class="img_cont_msg">
+															<img src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{$Session.Photo}}" class="rounded-circle user_img_msg">
+														</div>
+													</div>`;
+
+					            app.print(message)
+
+					            document.querySelector('#Content').value = ''
+					        }
+
+					        app.init = function () {
+					            if (!(window.WebSocket)) {
+					                alert('Your browser does not support WebSocket')
+					                return
+					            }
+
+					            var name = {{$Session.Nick}};
+					            app.container = document.querySelector('#ChatBox')
+					            app.ws = new WebSocket("ws://"+window.location.hostname+"/ws?key={{.ClientIdKey}}")
+
+					            app.ws.onopen = function() {console.log('<b>me</b>: connected')}
+
+					            app.ws.onmessage = function (event) {
+					               var res = JSON.parse(event.data)
+
+					               if(res.Owner != {{$Session.Id}}){
+					                var messsage = ''
+					                    message = `<div class="d-flex justify-content-start mb-4">
+															<div class="img_cont_msg">
+																<img src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{$ChosedBox.Target.Photo}}" class="rounded-circle user_img_msg">
+															</div>
+															<div class="msg_cotainer bg-dark">
+																`+escape_html(res.Message)+`
+																<span class="msg_time">`+res.Time+`&nbsp;-&nbsp;`+res.Date+`</span>
+															</div>
+														</div>`;
+					                app.print(message)
+									$(document).ready(function() {$('#ChatBox').stop ().animate ({scrollTop: $('#ChatBox')[0].scrollHeight});});
+					               }
+
+
+					            }
+
+					            app.ws.onclose = function () {
+					              console.log('<b>me</b>: disconnected')
+						          Swal.fire({
+						            position: 'center',
+						            icon: 'warning',
+						            title: 'Connection lost!<br>Refresh the page.',
+						            showConfirmButton: true,
+
+						          })
+					            }
+					        }
+
+					        window.onload = app.init
+					    </script>
+
+					<div class="card">
+						<div class="card-header msg_head">
+							<div class="d-flex bd-highlight">
+								<div class="img_cont">
+									<img src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{.ChosedBox.Target.Photo}}" class="rounded-circle user_img">
+									{{if eq .ChosedBox.Target.Online "online"}}<span class="online_icon"></span>{{else}}<span class="online_icon offline"></span>{{end}}
+								</div>
+								<div class="user_info">
+									<a href="{{$SiteConfig.SiteUrl}}@{{.ChosedBox.Target.Link}}" title="{{.ChosedBox.Target.Nick}}"><span>{{.ChosedBox.Target.Nick}}</span></a>
+									<p>{{.MessageCount}} Messages</p>
+								</div>
+								<!--
+								<div class="video_cam">
+									<span><i class="fas fa-video"></i></span>
+									<span><i class="fas fa-phone"></i></span>
+								</div>
+								-->
+							</div>
+							<span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
+							<div class="action_menu">
+								<ul>
+									<li><i class="fas fa-user-circle"></i> View profile</li>
+									<li><i class="fas fa-users"></i> Add to close friends</li>
+									<li><i class="fas fa-plus"></i> Add to group</li>
+									<li><i class="fas fa-ban"></i> Block</li>
+								</ul>
+							</div>
+						</div>
+						<div class="card-body msg_card_body" id="ChatBox">
+							{{range .Messages}}
+								{{if eq .Owner $Session.Id}}
+								<div class="d-flex justify-content-end mb-4">
+									<div class="msg_cotainer_send">
+											{{.Content}}
+										<span class="msg_time_send">{{.Date}}</span>
+									</div>
+									<div class="img_cont_msg">
+										<img src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{$Session.Photo}}" class="rounded-circle user_img_msg">
+									</div>
+								</div>
+								{{else}}
+									<div class="d-flex justify-content-start mb-4">
+										<div class="img_cont_msg">
+											<img src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{$ChosedBox.Target.Photo}}" class="rounded-circle user_img_msg">
+										</div>
+										<div class="msg_cotainer bg-dark">
+											{{.Content}}
+											<span class="msg_time">{{.Date}}</span>
+										</div>
+									</div>
+								{{end}}
+							{{end}}
+						</div>
+						<div class="card-footer">
+							<form method="POST" action="/backend/messagesend" id="messagesend" onsubmit="app.doSendMessage(); return false;">
+							<div class="input-group">
+								<div class="input-group-append">
+									<span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+								</div>
+								<input name="target" id="target" value="{{.ChosedBox.Target.Id}}" style="display: none;">
+								<textarea name="content" id="content" class="form-control type_msg" placeholder="{{.Language.Typeyourmessage}}"></textarea>
+								<div class="input-group-append">
+									<button id="sendbutton" type="submit" class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></button>
+								</div>
+							</div>
+							</form>
+						</div>
+					</div>
+					{{end}}
+				</div>
+			</div>
+		</div>
+	</body>
+	{{template "footer".}}
+	{{template "deep".}}
+{{end}}

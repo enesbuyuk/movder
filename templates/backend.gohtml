@@ -1,0 +1,233 @@
+{{define "messageget"}}
+	{{$SiteConfig := .SiteConfig}}
+	{{$Session := .Session}}
+	{{$ChosedBox := .ChosedBox}}
+							{{range .Messages}}
+								{{if eq .Owner $Session.Id}}
+								<div class="d-flex justify-content-end mb-4">
+									<div class="msg_cotainer_send">
+											{{.Content}}
+										<span class="msg_time_send">{{.Date}}</span>
+									</div>
+									<div class="img_cont_msg">
+										<img src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{$Session.Photo}}" class="rounded-circle user_img_msg">
+									</div>
+								</div>
+								{{else}}
+									<div class="d-flex justify-content-start mb-4">
+										<div class="img_cont_msg">
+											<img src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{$ChosedBox.Target.Photo}}" class="rounded-circle user_img_msg">
+										</div>
+										<div class="msg_cotainer bg-dark">
+											{{.Content}}
+											<span class="msg_time">{{.Date}}</span>
+										</div>
+									</div>
+								{{end}}
+							{{end}}
+							<br>
+{{end}}
+
+{{define "getpopularmovies"}}
+	{{$SiteConfig := .SiteConfig}}
+	{{$Session := .Session}}
+		{{range .PopularMovies.Results}}
+		<div class="col-xl-2 col-md-2 col-sm-2 mb-4">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+{{end}}
+
+{{define "getpopularseries"}}
+	{{$SiteConfig := .SiteConfig}}
+	{{$Session := .Session}}
+		{{range .PopularSeries.Results}}
+		<div class="col-xl-2 col-md-2 col-sm-2 mb-4">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','tv');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','tv');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','tv');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','tv');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+{{end}}
+
+{{define "gettrendmovies"}}
+	{{$SiteConfig := .SiteConfig}}
+	{{$Session := .Session}}
+		{{range .TrendMovies.Results}}
+		<div class="col-xl-2 col-md-2 col-sm-2 mb-4">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+{{end}}
+
+{{define "gettrendseries"}}
+	{{$SiteConfig := .SiteConfig}}
+	{{$Session := .Session}}
+		{{range .TrendSeries.Results}}
+		<div class="col-xl-2 col-md-2 col-sm-2 mb-4">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','tv');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','tv');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','tv');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','tv');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+{{end}}
+
+{{define "getupcoming"}}
+	{{$SiteConfig := .SiteConfig}}
+	{{$Session := .Session}}
+		{{range .Upcoming.Results}}
+		<div class="col-xl-2 col-md-2 col-sm-2 mb-4">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img src="https://image.tmdb.org/t/p/w500{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+{{end}}
+
+{{define "getnotification"}}
+	{{$SiteConfig := .SiteConfig}}
+	{{$Session := .Session}}
+		<h6 class="dropdown-header">Alerts</h6>
+		{{range .Notifications}}
+		<a class="dropdown-item d-flex align-items-center" href="{{$SiteConfig.SiteUrl}}">
+		<div class="dropdown-list-image mr-3">
+		<img class="rounded-circle w-60" src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{$Session.Photo}}" alt="">
+		<div class="status-indicator bg-success"></div>
+		</div>
+		<div>
+		<div class="text-truncate">{{.Content}}</div>
+		<div class="small text-gray-500">Gurdeep Osahan · 58m</div>
+		</div>
+		</a>
+		{{end}}
+		<a class="dropdown-item text-center small text-gray-500" href="{{$SiteConfig.SiteUrl}}">Show All Alerts</a>
+{{end}}	

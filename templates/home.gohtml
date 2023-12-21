@@ -1,0 +1,623 @@
+{{define "home"}}
+	{{template "head".}}
+	{{template "header".}}
+	{{$SiteConfig := .SiteConfig}}
+
+
+<section class="featured-posts">
+    <div class="container">
+        <div class="row no-gutters">
+        	{{range .Blogs}}
+            <div class="col-md-6 col-xs-12 col-sm-12 col-lg-4">
+                <div class="featured-slider mr-md-3 mr-lg-3">
+                    <div class="item" onclick="location.href='{{$SiteConfig.SiteUrl}}blog/{{.BlogLink}}';"  style="background-image:url('{{$SiteConfig.SiteUrl}}static/cdn/blog/{{.BlogImage}}')">
+                        <div class="post-content">
+                             <a href="{{$SiteConfig.SiteUrl}}blog/category/{{.CategoryLink}}" class="post-cat"
+                                style="background-color:{{.CategoryColor}}">{{.CategoryName}}</a>
+                            <h2 class="slider-post-title">
+                                <a href="{{$SiteConfig.SiteUrl}}blog/{{.BlogLink}}" title="{{.BlogTitle}}">{{.BlogTitle}}</a>
+                            </h2>
+                            <div class="post-meta mt-2">
+                                <span class="posted-time"><i class="fa fa-clock-o mr-2 text-danger"></i>{{.BlogDate}}</span>
+                                <span class="post-author">
+                                    by
+                                    <a href="{{$SiteConfig.SiteUrl}}@{{.BlogAuthorLink}}">{{.BlogAuthorNick}}</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{end}}
+
+            <div class="col-md-12 col-xs-12 col-sm-12 col-lg-4">
+                <div class="row mt-3 mt-lg-0">
+					{{range .Blogs}}
+                    <div class="col-lg-12 col-xs-12 col-sm-6 col-md-6">
+                        <div class="post-featured-style" onclick="location.href='{{$SiteConfig.SiteUrl}}blog/{{.BlogLink}}';" style="background-image:url('{{$SiteConfig.SiteUrl}}static/cdn/blog/{{.BlogImage}}')">
+                            <div class="post-content">
+                                <a href="{{$SiteConfig.SiteUrl}}blog/category/{{.CategoryLink}}" class="post-cat"
+                                style="background-color:{{.CategoryColor}}">{{.CategoryName}}</a>
+                                <h2 class="post-title">
+                                	<a href="{{$SiteConfig.SiteUrl}}blog/{{.BlogLink}}" title="{{.BlogTitle}}">{{.BlogTitle}}</a>
+                                </h2>
+                                <div class="post-meta mt-2">
+                                    <span class="posted-time"><i class="fa fa-clock-o mr-2 text-danger"></i>{{.BlogDate}}</span>
+                                    <span class="post-author">
+                                        <span> by </span>
+                                    	<a href="{{$SiteConfig.SiteUrl}}@{{.BlogAuthorLink}}">{{.BlogAuthorNick}}</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   	 {{end}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+
+<div class="d-sm-flex align-items-center justify-content-between mt-4 mb-3">
+<h1 class="h5 mb-0">{{.Language.PopularMovies}}</h1>
+<a href="{{.SiteConfig.SiteUrl}}all/popular-movies" class="d-sm-inline-block text-xs float-right">View All <i class="fas fa-eye fa-sm"></i></a>
+</div>
+<div class="row">
+<div class="col-xl-12 col-md-12">
+<div class="collections-slider">
+		{{range .PopularMovies.Results}}
+		<div class="col-xl-2 col-md-6 col-sm-12">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img data-lazy="https://www.themoviedb.org/t/p/w220_and_h330_face{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+</div>
+</div>
+</div>
+
+<div class="d-sm-flex align-items-center justify-content-between mt-4 mb-3">
+<h1 class="h5 mb-0">{{.Language.PopularSeries}}</h1>
+<a href="{{.SiteConfig.SiteUrl}}all/popular-series" class="d-sm-inline-block text-xs float-right">View All <i class="fas fa-eye fa-sm"></i></a>
+</div>
+<div class="row">
+<div class="col-xl-12 col-md-12">
+<div class="collections-slider">
+		{{range .PopularSeries.Results}}
+		<div class="col-xl-2 col-md-6 col-sm-12">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','tv');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','tv');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','tv');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','tv');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img data-lazy="https://www.themoviedb.org/t/p/w220_and_h330_face{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+</div>
+</div>
+</div>
+
+<div class="d-sm-flex align-items-center justify-content-between mt-4 mb-3">
+<h1 class="h5 mb-0">{{.Language.Dailytrendsmovie}}</h1>
+<a href="{{.SiteConfig.SiteUrl}}all/trend-movies" class="d-sm-inline-block text-xs float-right">View All <i class="fas fa-eye fa-sm"></i></a>
+</div>
+<div class="row">
+<div class="col-xl-12 col-md-12">
+<div class="collections-slider">
+		{{range .TrendMovie.Results}}
+		<div class="col-xl-2 col-md-6 col-sm-12">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img data-lazy="https://www.themoviedb.org/t/p/w220_and_h330_face{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+</div>
+</div>
+</div>
+
+<div class="d-sm-flex align-items-center justify-content-between mt-4 mb-3">
+<h1 class="h5 mb-0">{{.Language.Dailytrendstv}}</h1>
+<a href="{{.SiteConfig.SiteUrl}}all/trend-series" class="d-sm-inline-block text-xs float-right">View All <i class="fas fa-eye fa-sm"></i></a>
+</div>
+<div class="row">
+<div class="col-xl-12 col-md-12">
+<div class="collections-slider">
+		{{range .TrendTV.Results}}
+		<div class="col-xl-2 col-md-6 col-sm-12">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','tv');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','tv');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','tv');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','tv');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img data-lazy="https://www.themoviedb.org/t/p/w220_and_h330_face{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+</div>
+</div>
+</div>
+
+<div class="d-sm-flex align-items-center justify-content-between mt-4 mb-3">
+<h1 class="h5 mb-0">{{.Language.Upcoming}}</h1>
+<a href="{{.SiteConfig.SiteUrl}}all/upcoming" class="d-sm-inline-block text-xs float-right">View All <i class="fas fa-eye fa-sm"></i></a>
+</div>
+<div class="row">
+<div class="col-xl-12 col-md-12">
+<div class="collections-slider">
+		{{range .Upcomings.Results}}
+		<div class="col-xl-2 col-md-6 col-sm-12">
+			<div class="card m-card shadow border-0">
+				<a href="{{$SiteConfig.SiteUrl}}film/{{.Id}}/{{.Url}}">
+					<div class="m-card-cover">
+							<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box-left">
+								{{if eq .CheckWatchedlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchedlist('{{.Id}}','movie');"><i id="coverwatchedlist{{.Id}}" class="fa-regular fa-bookmark text-white"></i></h5>
+								{{end}}
+								<br>
+								{{if eq .CheckWatchlist true}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-primary"></i></h5>
+								{{else}}
+								<h5 class="mb-0 font-weight-bold" onclick="watchlist('{{.Id}}','movie');"><i id="coverwatchlist{{.Id}}" class="fa-regular fa-clock text-white"></i></h5>
+								{{end}}
+							</div>
+						<div class="position-absolute bg-opacity shadow-sm rounded text-center p-2 m-2 love-box">
+							<h6 class="mb-0 font-weight-bold"><i class="fa-solid fa-star text-warning"></i>{{.Vote}}</h6>
+							<small>{{.VoteCount}}</small>
+						</div>
+						<img data-lazy="https://www.themoviedb.org/t/p/w220_and_h330_face{{.Image}}" class="card-img-top" alt="{{.Title}}">
+					</div>
+					<div class="card-body p-1">
+						<h5 class="card-title text-white mb-1">{{.Title}}</h5>
+						<p class="card-text"><small class="text-white">{{if eq .Adult true}}For Adult{{else}}No-Adult{{end}}</small> <small class="text-danger ml-2"><i class="fas fa-calendar-alt fa-sm"></i> {{.Date}}</small> </p>
+					</div>
+				</a>
+			</div>
+		</div>
+		{{end}}
+</div>
+</div>
+</div>
+
+            <!--Review-->
+            <div class="row d-flex justify-content-center mt-4">
+ 				<div class="col-md-6">
+                    <div class="headings d-flex justify-content-between align-items-center mb-3">
+                        <h5>{{.Language.PopularReviewers}}</h5>
+                    </div>
+                    {{range .LatestReviewers}}
+                    <div class="card p-3">
+                    	<div class="d-flex justify-content-between align-items-center">
+		                    <div class="user d-flex flex-row align-items-center">
+								<span><font class="font-weight-bold" style="  word-break: break-word;">{{.Content}}</font></span>
+		                    </div>
+                     	</div>
+                     	<div class="d-flex justify-content-between align-items-center mt-2"><span>&nbsp;&nbsp;&nbsp;<i class="fa fa-film"></i><a href="{{$SiteConfig.SiteUrl}}film/{{.Film}}/{{.Link}}#{{.Id}}">{{.Title}}</a></span></div>
+                    	<div class="d-flex justify-content-between align-items-center mt-2">
+
+		                    <div class="user d-flex flex-row align-items-center">
+		                    <a href="{{$SiteConfig.SiteUrl}}@{{.Owner.Link}}" title="{{.Owner.Nick}}"><img src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{.Owner.Photo}}" width="30" class="user-img rounded-circle mr-2"></a>
+		                    <span><a href="{{$SiteConfig.SiteUrl}}@{{.Owner.Link}}" title="{{.Owner.Nick}}"><font class="font-weight-bold text-primary">{{.Owner.Nick}}</font></a></span>
+							
+		                    </div>
+	                    	<!--<small>3 days ago</small>-->
+			                <fieldset class="ratecomment">
+								<span class="rounded bg-primary text-white pl-1 pr-1"><b>{{.RateRound}}/10</b></span>
+
+						 		<span class="{{if ge .Rate 20}}colorgrad1{{end}}" title="20/2 star" ></span>
+							    <span class="half {{if ge .Rate 19}}colorgrad1{{end}}" title="19/2 star" ></span>
+
+							    <span class="{{if ge .Rate 18}}colorgrad1{{end}}" title="18/2 star" ></span>
+							    <span class="half {{if ge .Rate 17}}colorgrad1{{end}}" title="17/2 star" ></span>
+
+							    <span class="{{if ge .Rate 16}}colorgrad1{{end}}" title="16/2 star" ></span>
+							    <span class="half {{if ge .Rate 15}}colorgrad1{{end}}" title="15/2 star" ></span>
+							    
+							    <span class="{{if ge .Rate 14}}colorgrad1{{end}}" title="14/2 star" ></span>
+							    <span class="half {{if ge .Rate 13}}colorgrad1{{end}}" title="13/2 star" ></span>
+
+							    <span class="{{if ge .Rate 12}}colorgrad1{{end}}" title="12/2 star" ></span>
+							    <span class="half {{if ge .Rate 11}}colorgrad1{{end}}" title="11/2 star" ></span>
+
+							    <span class="{{if ge .Rate 10}}colorgrad1{{end}}" title="10/2 star" ></span>
+							    <span class="half {{if ge .Rate 9}}colorgrad1{{end}}" title="9/2 star" ></span>
+
+							    <span class="{{if ge .Rate 8}}colorgrad1{{end}}" title="8/2 star" ></span>
+							    <span class="half {{if ge .Rate 7}}colorgrad1{{end}}" title="7/2 star" ></span>
+
+							    <span class="{{if ge .Rate 6}}colorgrad1{{end}}" title="6/2 star" ></span>
+							    <span class="half {{if ge .Rate 5}}colorgrad1{{end}}" title="5/2 star" ></span>
+
+							    <span class="{{if ge .Rate 4}}colorgrad1{{end}}" title="4/2 star" ></span>
+							    <span class="half {{if ge .Rate 3}}colorgrad1{{end}}" title="3/2 star" ></span>
+
+							    <span class="{{if ge .Rate 2}}colorgrad1{{end}}" title="2/2 star" ></span>
+							    <span class="half {{if ge .Rate 1}}colorgrad1{{end}}" title="1/2 star" ></span>
+							</fieldset>
+                     	</div>    
+                    </div>
+                    {{end}}
+                </div>
+
+ 				<div class="col-md-6">
+                    <div class="headings d-flex justify-content-between align-items-center mb-3">
+                        <h5>{{.Language.LatestReviewers}}</h5>
+                    </div>
+                    {{range .LatestReviewers}}
+                    <div class="card p-3">
+                    	<div class="d-flex justify-content-between align-items-center">
+		                    <div class="user d-flex flex-row align-items-center">
+								<span><font class="font-weight-bold" style="  word-break: break-word;">{{.Content}}</font></span>
+		                    </div>
+                     	</div>  
+                     	<div class="d-flex justify-content-between align-items-center mt-2"><span>&nbsp;&nbsp;&nbsp;<i class="fa fa-film"></i><a href="{{$SiteConfig.SiteUrl}}film/{{.Film}}/{{.Link}}#{{.Id}}">{{.Title}}</a></span></div>
+                    	<div class="d-flex justify-content-between align-items-center mt-2">
+		                    <div class="user d-flex flex-row align-items-center">
+		                    <a href="{{$SiteConfig.SiteUrl}}@{{.Owner.Link}}" title="{{.Owner.Nick}}"><img src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{.Owner.Photo}}" width="30" class="user-img rounded-circle mr-2"></a>
+		                    <span><a href="{{$SiteConfig.SiteUrl}}@{{.Owner.Link}}" title="{{.Owner.Nick}}"><font class="font-weight-bold text-primary">{{.Owner.Nick}}</font></a></span>
+		                    </div>
+	                    	<!--<small>3 days ago</small>-->
+		                    <fieldset class="ratecomment">
+								<span class="rounded bg-primary text-white pl-1 pr-1"><b>{{.RateRound}}/10</b></span>
+
+						 		<span class="{{if ge .Rate 20}}colorgrad1{{end}}" title="20/2 star" ></span>
+							    <span class="half {{if ge .Rate 19}}colorgrad1{{end}}" title="19/2 star" ></span>
+
+							    <span class="{{if ge .Rate 18}}colorgrad1{{end}}" title="18/2 star" ></span>
+							    <span class="half {{if ge .Rate 17}}colorgrad1{{end}}" title="17/2 star" ></span>
+
+							    <span class="{{if ge .Rate 16}}colorgrad1{{end}}" title="16/2 star" ></span>
+							    <span class="half {{if ge .Rate 15}}colorgrad1{{end}}" title="15/2 star" ></span>
+							    
+							    <span class="{{if ge .Rate 14}}colorgrad1{{end}}" title="14/2 star" ></span>
+							    <span class="half {{if ge .Rate 13}}colorgrad1{{end}}" title="13/2 star" ></span>
+
+							    <span class="{{if ge .Rate 12}}colorgrad1{{end}}" title="12/2 star" ></span>
+							    <span class="half {{if ge .Rate 11}}colorgrad1{{end}}" title="11/2 star" ></span>
+
+							    <span class="{{if ge .Rate 10}}colorgrad1{{end}}" title="10/2 star" ></span>
+							    <span class="half {{if ge .Rate 9}}colorgrad1{{end}}" title="9/2 star" ></span>
+
+							    <span class="{{if ge .Rate 8}}colorgrad1{{end}}" title="8/2 star" ></span>
+							    <span class="half {{if ge .Rate 7}}colorgrad1{{end}}" title="7/2 star" ></span>
+
+							    <span class="{{if ge .Rate 6}}colorgrad1{{end}}" title="6/2 star" ></span>
+							    <span class="half {{if ge .Rate 5}}colorgrad1{{end}}" title="5/2 star" ></span>
+
+							    <span class="{{if ge .Rate 4}}colorgrad1{{end}}" title="4/2 star" ></span>
+							    <span class="half {{if ge .Rate 3}}colorgrad1{{end}}" title="3/2 star" ></span>
+
+							    <span class="{{if ge .Rate 2}}colorgrad1{{end}}" title="2/2 star" ></span>
+							    <span class="half {{if ge .Rate 1}}colorgrad1{{end}}" title="1/2 star" ></span>
+							</fieldset>
+                     	</div>    
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+
+            <!--Comments-->
+            <div class="row d-flex justify-content-center mt-4">
+ 				<div class="col-md-6">
+                    <div class="headings d-flex justify-content-between align-items-center mb-3">
+                        <h5>{{.Language.PopularReviews}}</h5>
+                    </div>
+                    {{range .Comments}}
+                    <div class="card p-3">
+                    	<div class="d-flex justify-content-between align-items-center">
+		                    <div class="user d-flex flex-row align-items-center">
+								<span><font class="font-weight-bold" style="  word-break: break-word;">{{.Content}}</font></span>
+		                    </div>
+                     	</div>  
+                     	 <div class="d-flex justify-content-between align-items-center mt-2"><span>&nbsp;&nbsp;&nbsp;<i class="fa fa-film"></i><a href="{{$SiteConfig.SiteUrl}}film/{{.Film}}/{{.Link}}#{{.Id}}">{{.Title}}</a></span></div>
+                    	<div class="d-flex justify-content-between align-items-center mt-2">
+		                    <div class="user d-flex flex-row align-items-center">
+		                    <a href="{{$SiteConfig.SiteUrl}}@{{.Owner.Link}}" title="{{.Owner.Nick}}"><img src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{.Owner.Photo}}" width="30" class="user-img rounded-circle mr-2"></a>
+		                    <span><a href="{{$SiteConfig.SiteUrl}}@{{.Owner.Link}}" title="{{.Owner.Nick}}"><font class="font-weight-bold text-primary">{{.Owner.Nick}}</font></a></span>
+		                    </div>
+	                    	<!--<small>3 days ago</small>-->
+			                <fieldset class="ratecomment">
+								<span class="rounded bg-primary text-white pl-1 pr-1"><b>{{.RateRound}}/10</b></span>
+
+						 		<span class="{{if ge .Rate 20}}colorgrad1{{end}}" title="20/2 star" ></span>
+							    <span class="half {{if ge .Rate 19}}colorgrad1{{end}}" title="19/2 star" ></span>
+
+							    <span class="{{if ge .Rate 18}}colorgrad1{{end}}" title="18/2 star" ></span>
+							    <span class="half {{if ge .Rate 17}}colorgrad1{{end}}" title="17/2 star" ></span>
+
+							    <span class="{{if ge .Rate 16}}colorgrad1{{end}}" title="16/2 star" ></span>
+							    <span class="half {{if ge .Rate 15}}colorgrad1{{end}}" title="15/2 star" ></span>
+							    
+							    <span class="{{if ge .Rate 14}}colorgrad1{{end}}" title="14/2 star" ></span>
+							    <span class="half {{if ge .Rate 13}}colorgrad1{{end}}" title="13/2 star" ></span>
+
+							    <span class="{{if ge .Rate 12}}colorgrad1{{end}}" title="12/2 star" ></span>
+							    <span class="half {{if ge .Rate 11}}colorgrad1{{end}}" title="11/2 star" ></span>
+
+							    <span class="{{if ge .Rate 10}}colorgrad1{{end}}" title="10/2 star" ></span>
+							    <span class="half {{if ge .Rate 9}}colorgrad1{{end}}" title="9/2 star" ></span>
+
+							    <span class="{{if ge .Rate 8}}colorgrad1{{end}}" title="8/2 star" ></span>
+							    <span class="half {{if ge .Rate 7}}colorgrad1{{end}}" title="7/2 star" ></span>
+
+							    <span class="{{if ge .Rate 6}}colorgrad1{{end}}" title="6/2 star" ></span>
+							    <span class="half {{if ge .Rate 5}}colorgrad1{{end}}" title="5/2 star" ></span>
+
+							    <span class="{{if ge .Rate 4}}colorgrad1{{end}}" title="4/2 star" ></span>
+							    <span class="half {{if ge .Rate 3}}colorgrad1{{end}}" title="3/2 star" ></span>
+
+							    <span class="{{if ge .Rate 2}}colorgrad1{{end}}" title="2/2 star" ></span>
+							    <span class="half {{if ge .Rate 1}}colorgrad1{{end}}" title="1/2 star" ></span>
+							</fieldset>
+                     	</div>    
+                    </div>
+                    {{end}}
+                </div>
+
+ 				<div class="col-md-6">
+                    <div class="headings d-flex justify-content-between align-items-center mb-3">
+                        <h5>{{.Language.LatestReviews}}</h5>
+                    </div>
+                    {{range .LatestComments}}
+                    <div class="card p-3">
+                    	<div class="d-flex justify-content-between align-items-center">
+		                    <div class="user d-flex flex-row align-items-center">
+								<span><font class="font-weight-bold" style="  word-break: break-word;">{{.Content}}</font></span>
+		                    </div>
+                     	</div>  
+                     	<div class="d-flex justify-content-between align-items-center mt-2"><span>&nbsp;&nbsp;&nbsp;<i class="fa fa-film"></i><a href="{{$SiteConfig.SiteUrl}}film/{{.Film}}/{{.Link}}#{{.Id}}">{{.Title}}</a></span></div>
+                    	<div class="d-flex justify-content-between align-items-center mt-2">
+		                    <div class="user d-flex flex-row align-items-center">
+		                    <a href="{{$SiteConfig.SiteUrl}}@{{.Owner.Link}}" title="{{.Owner.Nick}}"><img src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{.Owner.Photo}}" width="30" class="user-img rounded-circle mr-2"></a>
+		                    <span><a href="{{$SiteConfig.SiteUrl}}@{{.Owner.Link}}" title="{{.Owner.Nick}}"><font class="font-weight-bold text-primary">{{.Owner.Nick}}</font></a></span>
+		                    </div>
+	                    	<!--<small>3 days ago</small>-->
+		                    <fieldset class="ratecomment">
+								<span class="rounded bg-primary text-white pl-1 pr-1"><b>{{.RateRound}}/10</b></span>
+
+						 		<span class="{{if ge .Rate 20}}colorgrad1{{end}}" title="20/2 star" ></span>
+							    <span class="half {{if ge .Rate 19}}colorgrad1{{end}}" title="19/2 star" ></span>
+
+							    <span class="{{if ge .Rate 18}}colorgrad1{{end}}" title="18/2 star" ></span>
+							    <span class="half {{if ge .Rate 17}}colorgrad1{{end}}" title="17/2 star" ></span>
+
+							    <span class="{{if ge .Rate 16}}colorgrad1{{end}}" title="16/2 star" ></span>
+							    <span class="half {{if ge .Rate 15}}colorgrad1{{end}}" title="15/2 star" ></span>
+							    
+							    <span class="{{if ge .Rate 14}}colorgrad1{{end}}" title="14/2 star" ></span>
+							    <span class="half {{if ge .Rate 13}}colorgrad1{{end}}" title="13/2 star" ></span>
+
+							    <span class="{{if ge .Rate 12}}colorgrad1{{end}}" title="12/2 star" ></span>
+							    <span class="half {{if ge .Rate 11}}colorgrad1{{end}}" title="11/2 star" ></span>
+
+							    <span class="{{if ge .Rate 10}}colorgrad1{{end}}" title="10/2 star" ></span>
+							    <span class="half {{if ge .Rate 9}}colorgrad1{{end}}" title="9/2 star" ></span>
+
+							    <span class="{{if ge .Rate 8}}colorgrad1{{end}}" title="8/2 star" ></span>
+							    <span class="half {{if ge .Rate 7}}colorgrad1{{end}}" title="7/2 star" ></span>
+
+							    <span class="{{if ge .Rate 6}}colorgrad1{{end}}" title="6/2 star" ></span>
+							    <span class="half {{if ge .Rate 5}}colorgrad1{{end}}" title="5/2 star" ></span>
+
+							    <span class="{{if ge .Rate 4}}colorgrad1{{end}}" title="4/2 star" ></span>
+							    <span class="half {{if ge .Rate 3}}colorgrad1{{end}}" title="3/2 star" ></span>
+
+							    <span class="{{if ge .Rate 2}}colorgrad1{{end}}" title="2/2 star" ></span>
+							    <span class="half {{if ge .Rate 1}}colorgrad1{{end}}" title="1/2 star" ></span>
+							</fieldset>
+                     	</div>    
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+
+
+            <div class="row d-flex justify-content-center mt-4">
+ 				<div class="col-md-6">
+                    <div class="headings d-flex justify-content-between align-items-center mb-3">
+                        <h5>{{.Language.LatestRates}}</h5>
+                    </div>
+                    <div class="card p-3">
+                    {{range .Rates}}
+                    	<div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+		                    <div class="user d-flex flex-row align-items-center">
+		                    <a href="{{$SiteConfig.SiteUrl}}@{{.Owner.Link}}" title="{{.Owner.Nick}}"><img src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{.Owner.Photo}}" width="30" class="user-img rounded-circle mr-2"></a>
+		                    <span><a href="{{$SiteConfig.SiteUrl}}@{{.Owner.Link}}" title="{{.Owner.Nick}}"><font class="font-weight-bold text-primary">{{.Owner.Nick}}</font></a></span>
+							<span>&nbsp;&nbsp;&nbsp;<i class="fa fa-film"></i><a href="{{$SiteConfig.SiteUrl}}film/{{.Film}}/{{.Link}}">{{.Title}}</a></span>
+		                    </div>
+	                    	<!--<small>3 days ago</small>-->
+			                <fieldset class="ratecomment">
+								<span class="rounded bg-primary text-white pl-1 pr-1"><b>{{.RateRound}}/10</b></span>
+
+						 		<span class="{{if ge .Rate 20}}colorgrad1{{end}}" title="20/2 star" ></span>
+							    <span class="half {{if ge .Rate 19}}colorgrad1{{end}}" title="19/2 star" ></span>
+
+							    <span class="{{if ge .Rate 18}}colorgrad1{{end}}" title="18/2 star" ></span>
+							    <span class="half {{if ge .Rate 17}}colorgrad1{{end}}" title="17/2 star" ></span>
+
+							    <span class="{{if ge .Rate 16}}colorgrad1{{end}}" title="16/2 star" ></span>
+							    <span class="half {{if ge .Rate 15}}colorgrad1{{end}}" title="15/2 star" ></span>
+							    
+							    <span class="{{if ge .Rate 14}}colorgrad1{{end}}" title="14/2 star" ></span>
+							    <span class="half {{if ge .Rate 13}}colorgrad1{{end}}" title="13/2 star" ></span>
+
+							    <span class="{{if ge .Rate 12}}colorgrad1{{end}}" title="12/2 star" ></span>
+							    <span class="half {{if ge .Rate 11}}colorgrad1{{end}}" title="11/2 star" ></span>
+
+							    <span class="{{if ge .Rate 10}}colorgrad1{{end}}" title="10/2 star" ></span>
+							    <span class="half {{if ge .Rate 9}}colorgrad1{{end}}" title="9/2 star" ></span>
+
+							    <span class="{{if ge .Rate 8}}colorgrad1{{end}}" title="8/2 star" ></span>
+							    <span class="half {{if ge .Rate 7}}colorgrad1{{end}}" title="7/2 star" ></span>
+
+							    <span class="{{if ge .Rate 6}}colorgrad1{{end}}" title="6/2 star" ></span>
+							    <span class="half {{if ge .Rate 5}}colorgrad1{{end}}" title="5/2 star" ></span>
+
+							    <span class="{{if ge .Rate 4}}colorgrad1{{end}}" title="4/2 star" ></span>
+							    <span class="half {{if ge .Rate 3}}colorgrad1{{end}}" title="3/2 star" ></span>
+
+							    <span class="{{if ge .Rate 2}}colorgrad1{{end}}" title="2/2 star" ></span>
+							    <span class="half {{if ge .Rate 1}}colorgrad1{{end}}" title="1/2 star" ></span>
+							</fieldset>
+                     	</div>    
+                    {{end}}
+                    </div>
+                </div>
+
+ 				<div class="col-md-6">
+                    <div class="headings d-flex justify-content-between align-items-center mb-3">
+                        <h5>{{.Language.LatestReviews}}</h5>
+                    </div>
+                    {{range .LatestComments}}
+                    <div class="card p-3">
+                    	<div class="d-flex justify-content-between align-items-center">
+		                    <div class="user d-flex flex-row align-items-center">
+								<span><font class="font-weight-bold" style="  word-break: break-word;">{{.Content}}</font></span>
+		                    </div>
+                     	</div>
+                     	<div class="d-flex justify-content-between align-items-center mt-2"><span>&nbsp;&nbsp;&nbsp;<i class="fa fa-film"></i><a href="{{$SiteConfig.SiteUrl}}film/{{.Film}}/{{.Link}}#{{.Id}}">{{.Title}}</a></span></div>
+                    	<div class="d-flex justify-content-between align-items-center mt-2">
+		                    <div class="user d-flex flex-row align-items-center">
+		                    <a href="{{$SiteConfig.SiteUrl}}@{{.Owner.Link}}" title="{{.Owner.Nick}}"><img src="{{$SiteConfig.SiteUrl}}static/cdn/profile/{{.Owner.Photo}}" width="30" class="user-img rounded-circle mr-2"></a>
+		                    <span><a href="{{$SiteConfig.SiteUrl}}@{{.Owner.Link}}" title="{{.Owner.Nick}}"><font class="font-weight-bold text-primary">{{.Owner.Nick}}</font></a></span>
+		                    </div>
+	                    	<!--<small>3 days ago</small>-->
+		                    <fieldset class="ratecomment">
+								<span class="rounded bg-primary text-white pl-1 pr-1"><b>{{.RateRound}}/10</b></span>
+
+						 		<span class="{{if ge .Rate 20}}colorgrad1{{end}}" title="20/2 star" ></span>
+							    <span class="half {{if ge .Rate 19}}colorgrad1{{end}}" title="19/2 star" ></span>
+
+							    <span class="{{if ge .Rate 18}}colorgrad1{{end}}" title="18/2 star" ></span>
+							    <span class="half {{if ge .Rate 17}}colorgrad1{{end}}" title="17/2 star" ></span>
+
+							    <span class="{{if ge .Rate 16}}colorgrad1{{end}}" title="16/2 star" ></span>
+							    <span class="half {{if ge .Rate 15}}colorgrad1{{end}}" title="15/2 star" ></span>
+							    
+							    <span class="{{if ge .Rate 14}}colorgrad1{{end}}" title="14/2 star" ></span>
+							    <span class="half {{if ge .Rate 13}}colorgrad1{{end}}" title="13/2 star" ></span>
+
+							    <span class="{{if ge .Rate 12}}colorgrad1{{end}}" title="12/2 star" ></span>
+							    <span class="half {{if ge .Rate 11}}colorgrad1{{end}}" title="11/2 star" ></span>
+
+							    <span class="{{if ge .Rate 10}}colorgrad1{{end}}" title="10/2 star" ></span>
+							    <span class="half {{if ge .Rate 9}}colorgrad1{{end}}" title="9/2 star" ></span>
+
+							    <span class="{{if ge .Rate 8}}colorgrad1{{end}}" title="8/2 star" ></span>
+							    <span class="half {{if ge .Rate 7}}colorgrad1{{end}}" title="7/2 star" ></span>
+
+							    <span class="{{if ge .Rate 6}}colorgrad1{{end}}" title="6/2 star" ></span>
+							    <span class="half {{if ge .Rate 5}}colorgrad1{{end}}" title="5/2 star" ></span>
+
+							    <span class="{{if ge .Rate 4}}colorgrad1{{end}}" title="4/2 star" ></span>
+							    <span class="half {{if ge .Rate 3}}colorgrad1{{end}}" title="3/2 star" ></span>
+
+							    <span class="{{if ge .Rate 2}}colorgrad1{{end}}" title="2/2 star" ></span>
+							    <span class="half {{if ge .Rate 1}}colorgrad1{{end}}" title="1/2 star" ></span>
+							</fieldset>
+                     	</div>    
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+
+</div>
+	{{template "footer".}}
+	{{template "deep".}}
+{{end}}

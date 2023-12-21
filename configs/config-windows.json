@@ -1,0 +1,20 @@
+{
+	"dbhost" 		: "DB_HOST",
+	"dbport" 		: "DB_PORT",
+	"dbname" 		: "DB_NAME",
+	"dbuser" 		: "DB_USER" ,
+	"dbpassword" 		: "DB_PASSWORD", 
+
+	"tmdbapikey"		: "TMDB_APIKEY",
+	"tmdbApiLink"		: "", 
+
+	"port"			: ":80",
+	"domain"		: " YOUR_DOMAIN",
+   	"siteurl"		: "https://YOUR_DOMAIN/",
+   	"sessionkey"		: "YOUR_SESSION_KEY",
+   	"sessinname"		: "YOUR_SESSION_NAME",
+   	"titlelastpart"		: " | MOVDER",
+   	"titlehome"		: "MOVDER",
+   	"metadescription"	: "This is description.",
+   	"metakeywords"		: "movie, movies, series, film, imdb, tmdb, movie social media, social media, tv, tv show, movies social media"
+}
