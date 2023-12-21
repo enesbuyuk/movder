@@ -1,5 +1,5 @@
 # MOVDER
-<center><img src="https://github.com/enesbuyuk/movder/assets/82279640/d3f308c8-4c3e-40c6-b5f7-a0afff6580ff"></center>
+<center><img src="https://github.com/enesbuyuk/movder/assets/82279640/97a96f01-10ba-4e0a-830b-1a8040fbaca8"></center>
 
 ## Overview
 A social media movie website written with Go programming language using TMDB API.
@@ -62,38 +62,41 @@ A social media movie website written with Go programming language using TMDB API
 ## Screenshots
 
 ### Homepage
-![image](https://github.com/enesbuyuk/movder/assets/82279640/59ad36d8-0d6b-4e51-9051-995a52183882)
+![image](https://github.com/enesbuyuk/movder/assets/82279640/6d9cb226-fb92-45c9-a282-527ece8ecb11)
 
 ### Profile Page
-![image](https://github.com/enesbuyuk/movder/assets/82279640/22ba8187-6b8d-4030-833b-80d3a1737e6d)
+![image](https://github.com/enesbuyuk/movder/assets/82279640/d159be20-f4e9-4d03-8490-30902c70d19d)
 
 ### Chat Page
-![image](https://github.com/enesbuyuk/movder/assets/82279640/5f7b99d8-fe4d-426b-8c94-e600c7c91022)
+![image](https://github.com/enesbuyuk/movder/assets/82279640/4d42a396-4ebc-4925-957a-dd73ac7d27fc)
 
 ### Films Page
-![image](https://github.com/enesbuyuk/movder/assets/82279640/8d9f877a-da08-4446-af3f-9c1b36b19bde)
+![image](https://github.com/enesbuyuk/movder/assets/82279640/bd6877c5-fde6-4f15-a517-96d2a3261a83)
 
-### Films - Popular Films Page
-![image](https://github.com/enesbuyuk/movder/assets/82279640/da834e62-1c72-42ec-9f8f-e1f499231fbf)
+### Films - Popular Movies Page
+![image](https://github.com/enesbuyuk/movder/assets/82279640/13f9e83c-49c6-40dd-a803-d12d3bef0e7c)
  
 ### Films - Popular Series Page
-![image](https://github.com/enesbuyuk/movder/assets/82279640/be5de66e-d2ae-4b09-8f22-b2b634fa0143)
+![image](https://github.com/enesbuyuk/movder/assets/82279640/d207bed6-8da0-48cc-b626-66182846af23)
 
 ### Films - Trending in Movies Page
-![image](https://github.com/enesbuyuk/movder/assets/82279640/5b0d0e87-01f3-45fc-9fe9-d00d63c68016)
+![image](https://github.com/enesbuyuk/movder/assets/82279640/e4178932-3c91-4172-b3b8-38608a3c9a71)
 
 ### Films - Trending in Series Page
-![image](https://github.com/enesbuyuk/movder/assets/82279640/e4a42328-1e14-4a72-91a3-612b63dab9c8)
+![image](https://github.com/enesbuyuk/movder/assets/82279640/808d7059-14c7-4f08-a008-562f5cabf778)
 
 ### Films - Upcoming Page
-![image](https://github.com/enesbuyuk/movder/assets/82279640/09214084-0c12-48d8-8d4d-d384496381f6)
+![image](https://github.com/enesbuyuk/movder/assets/82279640/8664552f-c4b4-4812-90fa-1e612b5d1e24)
 
-## Movie Page
-![image](https://github.com/enesbuyuk/movder/assets/82279640/c3f01456-0e3b-4d78-9b38-c148c133c99f)
+### Movie Page
+![image](https://github.com/enesbuyuk/movder/assets/82279640/88bd3575-29ca-4676-8f60-a6fe5919d4b7)
 
-
-## Blog Homepage
+### Blog Homepage
 ![image](https://github.com/enesbuyuk/movder/assets/82279640/5a502029-7122-421f-833d-206286eed2d7)
+
+### Lists Page
+![image](https://github.com/enesbuyuk/movder/assets/82279640/f32b17a9-e470-459d-9801-4dc2f714b7aa)
+
 
 ## Contributing
 - Use GitHub Issues to report bugs or make suggestions.
