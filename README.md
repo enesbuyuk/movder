@@ -92,7 +92,7 @@ A social media movie website written with Go programming language using TMDB API
 ![image](https://github.com/enesbuyuk/movder/assets/82279640/88bd3575-29ca-4676-8f60-a6fe5919d4b7)
 
 ### Blog Homepage
-![image](https://github.com/enesbuyuk/movder/assets/82279640/5a502029-7122-421f-833d-206286eed2d7)
+![image](https://github.com/enesbuyuk/movder/assets/82279640/85427794-b4bd-4169-9f2f-99a0a0d3fb7c)
 
 ### Lists Page
 ![image](https://github.com/enesbuyuk/movder/assets/82279640/f32b17a9-e470-459d-9801-4dc2f714b7aa)
